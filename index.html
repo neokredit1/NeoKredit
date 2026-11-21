@@ -1,0 +1,2370 @@
+<meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/>
+<!DOCTYPE html>
+<html lang="az">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Neo Kredit -- Mobil Bankçılıq | Onlayn Kredit</title>
+  <style>
+    /* =========================================================================
+       1. BASE & RESET STYLES (MOR / PURPLE THEME)
+    ========================================================================= */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background: linear-gradient(180deg, #ede9fe 0%, #f5f3ff 45%, #e9d5ff 100%);
+      color: #1e1035;
+      line-height: 1.45;
+      overflow-x: hidden;
+    }
+
+    button, input, select {
+      font-family: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    /* =========================================================================
+       2. MOBILE FRAME & SCREEN VISIBILITY
+    ========================================================================= */
+    .viewport-shell {
+      min-height: 100vh;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+    }
+
+    @media (min-width: 520px) {
+      .viewport-shell {
+        padding: 18px 12px;
+      }
+    }
+
+    #app {
+      position: relative;
+      width: 100%;
+      max-width: 460px;
+      min-height: 100vh;
+      background: linear-gradient(180deg, #f5f3ff 0%, #ffffff 28%, #faf5ff 100%);
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+    }
+
+    @media (min-width: 520px) {
+      #app {
+        min-height: 840px;
+        border-radius: 34px;
+        box-shadow: 0 26px 64px -16px rgba(76, 29, 149, 0.3);
+        border: 1px solid rgba(139, 92, 246, 0.25);
+      }
+    }
+
+    /* Explicit screen visibility: inactive = display: none, active = display: flex */
+    .screen {
+      display: none;
+      flex: 1 1 auto;
+      flex-direction: column;
+      justify-content: space-between;
+      padding-bottom: 30px;
+      position: relative;
+    }
+
+    .screen.active {
+      display: flex;
+    }
+
+    .screen.anim-enter {
+      animation: screenFadeIn 0.2s ease-out both;
+    }
+
+    @keyframes screenFadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(7px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* =========================================================================
+       3. PURPLE ("MOR") DESIGN TOKENS & COMPONENTS
+    ========================================================================= */
+    .mor-orb {
+      border-radius: 9999px;
+      background: radial-gradient(circle at 28% 26%, #f3e8ff 0%, #a855f7 38%, #6d28d9 74%, #3b0764 100%);
+      box-shadow:
+        inset -10px -14px 24px rgba(59, 7, 100, 0.48),
+        inset 8px 8px 18px rgba(255, 255, 255, 0.72),
+        0 18px 34px -8px rgba(109, 40, 217, 0.4);
+      pointer-events: none;
+    }
+
+    .mor-gradient-text {
+      background: linear-gradient(90deg, #9333ea 0%, #6d28d9 55%, #4c1d95 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .btn-mor-primary {
+      width: 100%;
+      border: none;
+      border-radius: 18px;
+      padding: 15px 22px;
+      background: linear-gradient(95deg, #9333ea 0%, #6d28d9 55%, #4c1d95 100%);
+      color: #ffffff;
+      font-weight: 700;
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      box-shadow: 0 12px 24px -6px rgba(91, 33, 182, 0.48);
+      transition: transform 0.14s ease, filter 0.16s ease;
+    }
+
+    .btn-mor-primary:hover {
+      filter: brightness(1.06);
+    }
+
+    .btn-mor-primary:active {
+      transform: scale(0.985);
+    }
+
+    .btn-mor-secondary {
+      width: 100%;
+      border-radius: 18px;
+      padding: 15px 22px;
+      background: #ffffff;
+      color: #2e1065;
+      font-weight: 700;
+      font-size: 16px;
+      border: 1px solid #ddd6fe;
+      box-shadow: 0 8px 20px -8px rgba(76, 29, 149, 0.14);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: transform 0.14s ease, background-color 0.16s ease;
+    }
+
+    .btn-mor-secondary:hover {
+      background: #f5f3ff;
+    }
+
+    .btn-mor-secondary:active {
+      transform: scale(0.985);
+    }
+
+    .card-mor {
+      background: #ffffff;
+      border: 1px solid #ede9fe;
+      border-radius: 24px;
+      box-shadow: 0 8px 24px -8px rgba(76, 29, 149, 0.1);
+    }
+
+    .hero-mor-card {
+      border-radius: 28px;
+      padding: 20px;
+      color: #ffffff;
+      background: linear-gradient(135deg, #7e22ce 0%, #5b21b6 55%, #2e1065 100%);
+      box-shadow: 0 18px 36px -12px rgba(76, 29, 149, 0.38);
+      border: 1px solid rgba(221, 214, 254, 0.25);
+    }
+
+    .active-credit-card {
+      border-radius: 28px;
+      padding: 20px;
+      color: #ffffff;
+      background:
+        radial-gradient(circle at 86% 18%, rgba(251, 146, 60, 0.32) 0%, transparent 46%),
+        linear-gradient(130deg, #ea580c 0%, #dc2626 52%, #991b1b 100%);
+      box-shadow: 0 18px 36px -12px rgba(153, 27, 27, 0.38);
+      border: 1px solid rgba(255, 255, 255, 0.22);
+    }
+
+    .fee-transfer-card {
+      border-radius: 28px;
+      padding: 20px;
+      color: #ffffff;
+      background:
+        radial-gradient(circle at 85% 18%, rgba(216, 180, 254, 0.36) 0%, transparent 48%),
+        radial-gradient(circle at 16% 86%, rgba(139, 92, 246, 0.28) 0%, transparent 45%),
+        linear-gradient(130deg, #7e22ce 0%, #4c1d95 52%, #2e1065 100%);
+      box-shadow: 0 20px 38px -12px rgba(46, 16, 101, 0.52);
+      border: 1px solid rgba(255, 255, 255, 0.24);
+    }
+
+    /* Header & Brand Emblem */
+    .top-bar {
+      padding: 16px 20px 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      position: relative;
+      z-index: 10;
+    }
+
+    .brand-btn {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: none;
+      border: none;
+      padding: 0;
+      text-align: left;
+      min-width: 0;
+    }
+
+    .nk-badge {
+      width: 54px;
+      height: 54px;
+      border-radius: 9999px;
+      background: linear-gradient(135deg, #c084fc 0%, #6d28d9 55%, #2e1065 100%);
+      padding: 3px;
+      box-shadow: 0 10px 22px -6px rgba(109, 40, 217, 0.45);
+      flex-shrink: 0;
+    }
+
+    .nk-badge-inner {
+      width: 100%;
+      height: 100%;
+      border-radius: 9999px;
+      background: linear-gradient(145deg, #7e22ce 0%, #3b0764 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: #ffffff;
+      border: 1px solid rgba(255, 255, 255, 0.28);
+    }
+
+    .nk-badge-letters {
+      font-size: 16px;
+      font-weight: 900;
+      font-style: italic;
+      line-height: 1;
+      letter-spacing: -0.03em;
+    }
+
+    .nk-badge-sub {
+      font-size: 5.5px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #ede9fe;
+      margin-top: 2px;
+      white-space: nowrap;
+    }
+
+    .circle-icon-btn {
+      width: 42px;
+      height: 42px;
+      border-radius: 9999px;
+      background: #ffffff;
+      border: 1px solid #ede9fe;
+      box-shadow: 0 6px 16px -6px rgba(76, 29, 149, 0.14);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      color: #2e1065;
+      flex-shrink: 0;
+      position: relative;
+    }
+
+    .back-btn {
+      background: none;
+      border: none;
+      padding: 0;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 14px;
+      font-weight: 600;
+      color: #475569;
+    }
+
+    .back-btn:hover {
+      color: #6d28d9;
+    }
+
+    /* Forms & Validation */
+    .form-label {
+      display: block;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #2e1065;
+      margin-bottom: 6px;
+    }
+
+    .form-control-box {
+      display: flex;
+      align-items: center;
+      background: #ffffff;
+      border: 2px solid #ede9fe;
+      border-radius: 16px;
+      padding: 12px 14px;
+      box-shadow: 0 6px 16px -8px rgba(76, 29, 149, 0.08);
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .form-control-box:focus-within {
+      border-color: #7e22ce;
+    }
+
+    .form-control-box.invalid {
+      border-color: #ef4444;
+      box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.18);
+    }
+
+    .form-control-box input {
+      width: 100%;
+      border: none;
+      outline: none;
+      background: transparent;
+      font-size: 15px;
+      font-weight: 600;
+      color: #0f172a;
+    }
+
+    .error-box {
+      margin-top: 12px;
+      padding: 12px 14px;
+      border-radius: 16px;
+      background: #fef2f2;
+      border: 2px solid #f87171;
+      color: #b91c1c;
+      font-size: 13px;
+      font-weight: 700;
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+    }
+
+    /* Slider */
+    input[type="range"].mor-slider {
+      -webkit-appearance: none;
+      appearance: none;
+      --fill: 0%;
+      width: 100%;
+      height: 8px;
+      border-radius: 9999px;
+      background: linear-gradient(to right, #7e22ce 0%, #7e22ce var(--fill), #ede9fe var(--fill), #ede9fe 100%);
+      outline: none;
+      touch-action: none;
+    }
+
+    input[type="range"].mor-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 24px;
+      height: 24px;
+      border-radius: 9999px;
+      background: #ffffff;
+      border: 4px solid #7e22ce;
+      box-shadow: 0 4px 12px rgba(107, 33, 168, 0.35);
+      cursor: pointer;
+    }
+
+    input[type="range"].mor-slider::-moz-range-thumb {
+      width: 24px;
+      height: 24px;
+      border-radius: 9999px;
+      background: #ffffff;
+      border: 4px solid #7e22ce;
+      box-shadow: 0 4px 12px rgba(107, 33, 168, 0.35);
+      cursor: pointer;
+    }
+
+    .chip-btn {
+      padding: 10px 8px;
+      border-radius: 14px;
+      border: 1px solid #ede9fe;
+      background: #f5f3ff;
+      color: #334155;
+      font-size: 13px;
+      font-weight: 800;
+      transition: background-color 0.14s ease, color 0.14s ease;
+    }
+
+    .chip-btn.selected {
+      background: linear-gradient(90deg, #7e22ce 0%, #5b21b6 100%);
+      color: #ffffff;
+      border-color: transparent;
+      box-shadow: 0 6px 14px -4px rgba(91, 33, 182, 0.45);
+    }
+
+    /* Toast & Drawer */
+    .toast-bar {
+      position: fixed;
+      top: 14px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: calc(100% - 28px);
+      max-width: 410px;
+      z-index: 80;
+      background: #2e1065;
+      color: #ffffff;
+      border: 1px solid rgba(216, 180, 254, 0.45);
+      border-radius: 16px;
+      padding: 12px 14px;
+      box-shadow: 0 16px 32px -8px rgba(46, 16, 101, 0.55);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .drawer-scrim {
+      position: fixed;
+      inset: 0;
+      background: rgba(46, 16, 101, 0.48);
+      z-index: 60;
+    }
+
+    .drawer-sheet {
+      position: fixed;
+      top: 0;
+      right: 0;
+      height: 100%;
+      width: 82%;
+      max-width: 315px;
+      background: #ffffff;
+      z-index: 70;
+      box-shadow: -12px 0 32px rgba(46, 16, 101, 0.24);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transform: translateX(100%);
+      transition: transform 0.2s ease-out;
+    }
+
+    .drawer-sheet.open {
+      transform: translateX(0);
+    }
+
+    .drawer-item {
+      width: 100%;
+      background: transparent;
+      border: none;
+      border-radius: 12px;
+      padding: 10px 12px;
+      text-align: left;
+      font-size: 13px;
+      font-weight: 700;
+      color: #334155;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .drawer-item:hover {
+      background: #f5f3ff;
+      color: #6d28d9;
+    }
+
+    @keyframes ringPulse {
+      0% { transform: scale(0.95); opacity: 0.78; }
+      70% { transform: scale(1.1); opacity: 0.14; }
+      100% { transform: scale(1.14); opacity: 0; }
+    }
+
+    .ring-pulse {
+      animation: ringPulse 2s infinite;
+    }
+  </style>
+</head>
+<body>
+  <div class="viewport-shell">
+    <main id="app" aria-label="Neo Kredit Mobil Tətbiqi">
+
+      <!-- Toast Notification -->
+      <div id="toastBar" class="toast-bar hidden" role="status" aria-live="polite">
+        <div style="display:flex;align-items:center;gap:8px;min-width:0;">
+          <span style="width:9px;height:9px;border-radius:9999px;background:#d8b4fe;flex-shrink:0;"></span>
+          <span id="toastMsg">Bildiriş</span>
+        </div>
+        <button type="button" id="toastCloseBtn" style="background:none;border:none;color:#ede9fe;font-weight:700;padding:2px 6px;">✕</button>
+      </div>
+
+      <!-- Slide-over Drawer (#drawer) & Backdrop -->
+      <div id="drawerScrim" class="drawer-scrim hidden"></div>
+      <aside id="drawer" class="drawer-sheet" aria-label="Səhifə menyusu">
+        <div>
+          <div style="display:flex;align-items:center;justify-content:space-between;padding-bottom:14px;border-bottom:1px solid #ede9fe;">
+            <div style="display:flex;align-items:center;gap:10px;">
+              <div style="width:38px;height:38px;border-radius:9999px;background:linear-gradient(135deg,#7e22ce,#2e1065);color:#fff;font-weight:900;font-size:12px;display:flex;align-items:center;justify-content:center;">NK</div>
+              <div>
+                <div style="font-weight:800;font-size:14px;color:#2e1065;">NEO KREDİT</div>
+                <div style="font-size:11px;font-weight:700;color:#7e22ce;">Bütün Bölmələr</div>
+              </div>
+            </div>
+            <button type="button" id="drawerCloseBtn" style="width:34px;height:34px;border-radius:10px;border:1px solid #ede9fe;background:#f5f3ff;color:#2e1065;font-weight:800;">✕</button>
+          </div>
+
+          <div style="margin-top:14px;margin-bottom:6px;font-size:10px;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;color:#94a3b8;">
+            Səhifələr (1–9)
+          </div>
+          <nav style="display:flex;flex-direction:column;gap:4px;">
+            <button type="button" class="drawer-item" data-nav="home"><span>1. Ana səhifə</span><span>→</span></button>
+            <button type="button" class="drawer-item" data-nav="login"><span>2. Giriş</span><span>→</span></button>
+            <button type="button" class="drawer-item" data-nav="register"><span>3. Qeydiyyat</span><span>→</span></button>
+            <button type="button" class="drawer-item" data-nav="verifying"><span>4. Yoxlanılır</span><span>→</span></button>
+            <button type="button" class="drawer-item" data-nav="app"><span>5. Kabinet</span><span>→</span></button>
+            <button type="button" class="drawer-item" data-nav="amount"><span>6. Məbləğ və Müddət</span><span>→</span></button>
+            <button type="button" class="drawer-item" data-nav="destination"><span>7. Köçürmə Hesabı</span><span>→</span></button>
+            <button type="button" class="drawer-item" data-nav="app-active"><span>8. Aktiv Kredit</span><span>→</span></button>
+            <button type="button" class="drawer-item" data-nav="pay-fee"><span>9. Rüsum ödənişi (15 ₼)</span><span>→</span></button>
+          </nav>
+        </div>
+
+        <div style="padding-top:12px;border-top:1px solid #ede9fe;font-size:12px;color:#64748b;">
+          <div style="font-weight:800;color:#2e1065;">NEO KREDİT MMC</div>
+          <div>Mobil Bankçılıq • Onlayn Kredit</div>
+        </div>
+      </aside>
+
+      <!-- =====================================================================
+           SCREEN 1: HOME ("Ana səhifə")
+      ===================================================================== -->
+      <section id="screen-home" class="screen active" aria-label="Ana səhifə">
+        <div>
+          <header class="top-bar">
+            <button type="button" class="brand-btn" data-nav="home">
+              <div class="nk-badge">
+                <div class="nk-badge-inner">
+                  <span class="nk-badge-letters">NK</span>
+                  <span class="nk-badge-sub">NEO KREDİT</span>
+                </div>
+              </div>
+              <div style="min-width:0;">
+                <div style="font-weight:800;font-size:17px;color:#2e1065;line-height:1.15;">Mobil Bankçılıq</div>
+                <div style="font-size:11px;font-weight:800;letter-spacing:0.12em;color:#7e22ce;text-transform:uppercase;margin-top:2px;">ONLAYN KREDİT</div>
+              </div>
+            </button>
+
+            <button type="button" id="menuBtn" class="circle-icon-btn" aria-label="Menyu">
+              <span style="width:16px;height:2px;background:#2e1065;border-radius:2px;"></span>
+              <span style="width:16px;height:2px;background:#2e1065;border-radius:2px;"></span>
+              <span style="width:16px;height:2px;background:#2e1065;border-radius:2px;"></span>
+            </button>
+          </header>
+
+          <div style="padding:12px 20px 20px;position:relative;">
+            <div style="display:flex;align-items:center;justify-content:space-between;min-height:112px;position:relative;">
+              <div style="position:relative;z-index:2;display:inline-flex;align-items:center;gap:8px;padding:9px 14px;border-radius:9999px;background:rgba(255,255,255,0.96);border:1px solid #ddd6fe;box-shadow:0 6px 16px -6px rgba(76,29,149,0.12);">
+                <span style="width:9px;height:9px;border-radius:9999px;background:#7e22ce;"></span>
+                <span style="font-size:11px;font-weight:800;letter-spacing:0.06em;color:#2e1065;text-transform:uppercase;">SÜRƏTLİ ONLAYN KREDİT HƏLLƏRİ</span>
+              </div>
+              <div class="mor-orb" style="width:128px;height:128px;margin-right:-36px;margin-top:-8px;flex-shrink:0;"></div>
+            </div>
+
+            <h1 style="position:relative;z-index:2;margin:-18px 0 0;font-size:40px;font-weight:900;line-height:1.05;letter-spacing:-0.02em;color:#2e1065;">
+              Kredit<br/>götürmək<br/>
+              <span class="mor-gradient-text">5 dəqiqədə</span>
+            </h1>
+
+            <p style="margin:14px 0 0;font-size:15px;color:#475569;">
+              5 dəqiqədə onlayn müraciət edin, <strong style="color:#2e1065;">3 500 AZN-ə</strong> qədər kredit götürmək imkanı. Filiala getmədən, sənədsiz, sürətli təsdiq.
+            </p>
+
+            <div style="margin-top:20px;display:flex;flex-direction:column;gap:12px;">
+              <button type="button" id="homeStartBtn" class="btn-mor-primary">
+                <span>Müraciəti başlat</span>
+                <span>→</span>
+              </button>
+              <button type="button" id="homeCalcBtn" class="btn-mor-secondary" data-nav="amount">
+                <span>Kalkulyatoru sına</span>
+              </button>
+            </div>
+
+            <!-- Trust Strip -->
+            <div style="margin-top:24px;padding-top:16px;border-top:1px solid #ede9fe;display:grid;grid-template-columns:repeat(3,1fr);gap:8px;text-align:center;">
+              <div>
+                <div style="width:32px;height:32px;border-radius:10px;background:#ede9fe;color:#6d28d9;display:inline-flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;">🛡</div>
+                <div style="font-size:12px;font-weight:700;color:#334155;margin-top:4px;">Tam<br/>Təhlükəsizlik</div>
+              </div>
+              <div>
+                <div style="width:32px;height:32px;border-radius:10px;background:#fef3c7;color:#d97706;display:inline-flex;align-items:center;justify-content:center;font-weight:800;font-size:15px;">★</div>
+                <div style="font-size:12px;font-weight:700;color:#334155;margin-top:4px;">4.9/5<br/>reytinq</div>
+              </div>
+              <div>
+                <div style="width:32px;height:32px;border-radius:10px;background:#f3e8ff;color:#7e22ce;display:inline-flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;">✓</div>
+                <div style="font-size:12px;font-weight:700;color:#334155;margin-top:4px;">Sürətli<br/>təsdiq</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Scrollable Sections Below -->
+          <div style="padding:4px 20px 8px;display:flex;flex-direction:column;gap:18px;">
+            <!-- Credit Limit Card -->
+            <div class="hero-mor-card">
+              <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px;">
+                <div>
+                  <div style="font-size:10px;font-weight:800;letter-spacing:0.14em;color:#ddd6fe;text-transform:uppercase;">KREDİT LİMİTİ</div>
+                  <div style="font-size:32px;font-weight:900;line-height:1.1;margin-top:4px;">3.500 <span style="font-size:17px;color:#ddd6fe;">AZN</span></div>
+                </div>
+                <span style="padding:5px 11px;border-radius:9999px;background:rgba(255,255,255,0.16);font-size:12px;font-weight:700;">10% illik</span>
+              </div>
+              <p style="margin:10px 0 0;font-size:13px;color:#ede9fe;">
+                12, 24 və ya 36 ay müddətində ehtiyacınıza uyğun məbləği seçin və hesabınıza köçürün.
+              </p>
+              <button type="button" data-nav="amount" style="margin-top:14px;width:100%;padding:11px 16px;border-radius:14px;border:none;background:#ffffff;color:#2e1065;font-weight:800;font-size:13px;">
+                Kalkulyatorda hesabla →
+              </button>
+            </div>
+
+            <!-- Necə işləyir? -->
+            <div class="card-mor" style="padding:18px;">
+              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
+                <h2 style="margin:0;font-size:17px;font-weight:900;color:#2e1065;">Necə işləyir?</h2>
+                <span style="font-size:11px;font-weight:700;color:#6d28d9;background:#f5f3ff;padding:4px 10px;border-radius:9999px;">3 Addım</span>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:12px;">
+                <div style="display:flex;align-items:flex-start;gap:12px;">
+                  <div style="width:28px;height:28px;border-radius:10px;background:#ede9fe;color:#5b21b6;font-weight:900;font-size:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">01</div>
+                  <div>
+                    <div style="font-size:14px;font-weight:800;color:#2e1065;">Qeydiyyat və şəxsi məlumatlar</div>
+                    <div style="font-size:12px;color:#64748b;">Ad soyad, nömrə, seriya nömrəsi, FİN kod və doğum tarixinizi daxil edin.</div>
+                  </div>
+                </div>
+                <div style="display:flex;align-items:flex-start;gap:12px;">
+                  <div style="width:28px;height:28px;border-radius:10px;background:#ede9fe;color:#5b21b6;font-weight:900;font-size:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">02</div>
+                  <div>
+                    <div style="font-size:14px;font-weight:800;color:#2e1065;">Məbləğ və müddət seçimi</div>
+                    <div style="font-size:12px;color:#64748b;">1.000 ₼ – 3.500 ₼ aralığında məbləğ və 12–36 ay müddət seçin.</div>
+                  </div>
+                </div>
+                <div style="display:flex;align-items:flex-start;gap:12px;">
+                  <div style="width:28px;height:28px;border-radius:10px;background:#ede9fe;color:#5b21b6;font-weight:900;font-size:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">03</div>
+                  <div>
+                    <div style="font-size:14px;font-weight:800;color:#2e1065;">Bank kartı və rəsmiləşdirmə</div>
+                    <div style="font-size:12px;color:#64748b;">Uyğun bank kartını seçin və 15 ₼ birdəfəlik rüsumu tamamlayın.</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Üstünlüklərimiz -->
+            <div>
+              <h2 style="margin:0 0 10px;font-size:17px;font-weight:900;color:#2e1065;">Üstünlüklərimiz</h2>
+              <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px;">
+                <div class="card-mor" style="padding:14px;">
+                  <div style="font-size:18px;">⚡</div>
+                  <div style="font-size:14px;font-weight:800;color:#2e1065;margin-top:6px;">Sürətli Cavab</div>
+                  <div style="font-size:12px;color:#64748b;margin-top:3px;">Onlayn yoxlama ilə operativ nəticə.</div>
+                </div>
+                <div class="card-mor" style="padding:14px;">
+                  <div style="font-size:18px;">📱</div>
+                  <div style="font-size:14px;font-weight:800;color:#2e1065;margin-top:6px;">Tam Onlayn</div>
+                  <div style="font-size:12px;color:#64748b;margin-top:3px;">Filiala getmədən mobil kabinetdən.</div>
+                </div>
+                <div class="card-mor" style="padding:14px;">
+                  <div style="font-size:18px;">💎</div>
+                  <div style="font-size:14px;font-weight:800;color:#2e1065;margin-top:6px;">Şəffaf Hesablama</div>
+                  <div style="font-size:12px;color:#64748b;margin-top:3px;">Aylıq və cəmi ödəniş dərhal görünür.</div>
+                </div>
+                <div class="card-mor" style="padding:14px;">
+                  <div style="font-size:18px;">🔐</div>
+                  <div style="font-size:14px;font-weight:800;color:#2e1065;margin-top:6px;">Məlumat Mühafizəsi</div>
+                  <div style="font-size:12px;color:#64748b;margin-top:3px;">Məlumatlar şifrələnmiş şəkildə qorunur.</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Expandable FAQ -->
+            <div class="card-mor" style="padding:18px;">
+              <h2 style="margin:0 0 10px;font-size:17px;font-weight:900;color:#2e1065;">Tez-tez verilən suallar</h2>
+              <div style="display:flex;flex-direction:column;gap:8px;">
+                <div style="border-bottom:1px solid #ede9fe;padding-bottom:8px;">
+                  <button type="button" class="faq-trigger" data-faq="0" style="width:100%;background:none;border:none;padding:4px 0;display:flex;align-items:center;justify-content:space-between;gap:8px;text-align:left;font-size:13px;font-weight:800;color:#2e1065;">
+                    <span>3.500 AZN kredit limiti necə ayrılır?</span>
+                    <span id="faqIcon0">−</span>
+                  </button>
+                  <div id="faqBody0" style="font-size:12px;color:#64748b;margin-top:4px;">
+                    Qeydiyyat və məlumatların yoxlanılmasından sonra sizə 3.500 AZN-dək kredit limiti təqdim olunur.
+                  </div>
+                </div>
+                <div style="border-bottom:1px solid #ede9fe;padding-bottom:8px;">
+                  <button type="button" class="faq-trigger" data-faq="1" style="width:100%;background:none;border:none;padding:4px 0;display:flex;align-items:center;justify-content:space-between;gap:8px;text-align:left;font-size:13px;font-weight:800;color:#2e1065;">
+                    <span>Hansı bank kartlarına köçürmə seçmək olar?</span>
+                    <span id="faqIcon1">+</span>
+                  </button>
+                  <div id="faqBody1" class="hidden" style="font-size:12px;color:#64748b;margin-top:4px;">
+                    Kapital Bank, Leobank, ABB, PAŞA Bank və AccessBank kartlarından birini seçə bilərsiniz.
+                  </div>
+                </div>
+                <div>
+                  <button type="button" class="faq-trigger" data-faq="2" style="width:100%;background:none;border:none;padding:4px 0;display:flex;align-items:center;justify-content:space-between;gap:8px;text-align:left;font-size:13px;font-weight:800;color:#2e1065;">
+                    <span>15 ₼ birdəfəlik rüsum necə ödənilir?</span>
+                    <span id="faqIcon2">+</span>
+                  </button>
+                  <div id="faqBody2" class="hidden" style="font-size:12px;color:#64748b;margin-top:4px;">
+                    Rüsum ödənişi bölməsindəki Neo Kredit MMC kartına 15 ₼ köçürüb qəbzi yükləyə bilərsiniz.
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Footer Note -->
+            <footer style="text-align:center;font-size:11px;color:#64748b;padding-top:4px;">
+              <div style="font-weight:800;color:#2e1065;">NEO KREDİT -- Mobil Bankçılıq</div>
+              <div style="margin-top:2px;">Onlayn kredit xidmətləri • Bütün hüquqlar qorunur</div>
+            </footer>
+          </div>
+        </div>
+      </section>
+
+      <!-- =====================================================================
+           SCREEN 2: LOGIN ("Giriş")
+      ===================================================================== -->
+      <section id="screen-login" class="screen" aria-label="Giriş">
+        <div>
+          <div style="padding:16px 20px 4px;">
+            <button type="button" class="back-btn" data-nav="home">
+              <span>&lt;</span>
+              <span>Ana səhifə</span>
+            </button>
+          </div>
+
+          <div style="padding:12px 20px 0;display:flex;align-items:center;gap:12px;">
+            <div class="nk-badge">
+              <div class="nk-badge-inner">
+                <span class="nk-badge-letters">NK</span>
+                <span class="nk-badge-sub">NEO KREDİT</span>
+              </div>
+            </div>
+            <div>
+              <div style="font-weight:800;font-size:17px;color:#2e1065;line-height:1.15;">Mobil Bankçılıq</div>
+              <div style="font-size:11px;font-weight:800;letter-spacing:0.14em;color:#7e22ce;text-transform:uppercase;margin-top:2px;">GİRİŞ</div>
+            </div>
+          </div>
+
+          <div style="padding:16px 20px 0;">
+            <h1 style="margin:0;font-size:32px;font-weight:900;line-height:1.1;color:#2e1065;">
+              Hesabınıza daxil<br/>olun
+            </h1>
+            <p style="margin:8px 0 0;font-size:13px;color:#64748b;">
+              Əvvəl qeydiyyatdan keçmək lazımdır. Qeydiyyatlı hesabınız varsa məlumatları daxil edin.
+            </p>
+
+            <div id="loginError" class="error-box hidden" role="alert">
+              <span>⚠</span>
+              <span id="loginErrorText"></span>
+            </div>
+
+            <form id="loginForm" style="margin-top:16px;display:flex;flex-direction:column;gap:14px;" novalidate>
+              <div>
+                <label for="loginName" class="form-label">AD SOYAD</label>
+                <div id="loginNameBox" class="form-control-box">
+                  <input id="loginName" type="text" autocomplete="name" />
+                </div>
+              </div>
+
+              <div>
+                <label for="loginPhone" class="form-label">MOBİL NÖMRƏ</label>
+                <div id="loginPhoneBox" class="form-control-box">
+                  <span style="font-weight:800;color:#2e1065;margin-right:8px;user-select:none;">+994</span>
+                  <input
+                    id="loginPhone"
+                    type="tel"
+                    inputmode="numeric"
+                    maxlength="12"
+                    placeholder="50-123-45-67"
+                  />
+                </div>
+                <div style="font-size:11px;color:#64748b;margin-top:4px;">
+                  9 rəqəm (XX-XXX-XX-XX), prefikslər: <strong style="color:#2e1065;">77, 70, 50, 51, 55, 10, 99</strong>
+                </div>
+              </div>
+
+              <div>
+                <label for="loginSerial" class="form-label">ŞƏXSİYYƏT VƏSİQƏSİ SERİYA NÖMRƏSİ</label>
+                <div style="display:flex;align-items:center;gap:8px;">
+                  <div style="display:flex;background:#ede9fe;padding:4px;border-radius:14px;flex-shrink:0;">
+                    <button type="button" id="loginPrefixAA" data-prefix="AA" class="serial-prefix-btn" style="border:none;border-radius:10px;padding:7px 11px;font-size:12px;font-weight:800;background:transparent;color:#475569;">AA</button>
+                    <button type="button" id="loginPrefixAZE" data-prefix="AZE" class="serial-prefix-btn" style="border:none;border-radius:10px;padding:7px 11px;font-size:12px;font-weight:800;background:#ffffff;color:#6d28d9;box-shadow:0 2px 6px rgba(76,29,149,0.12);">AZE</button>
+                  </div>
+                  <div id="loginSerialBox" class="form-control-box" style="flex:1;padding:10px 12px;">
+                    <input
+                      id="loginSerial"
+                      type="text"
+                      inputmode="numeric"
+                      maxlength="7"
+                      placeholder="1234567"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <label for="loginFin" class="form-label">FİN KOD</label>
+                <div id="loginFinBox" class="form-control-box">
+                  <input
+                    id="loginFin"
+                    type="text"
+                    maxlength="7"
+                    placeholder="7A8B9C0"
+                    style="text-transform:uppercase;"
+                  />
+                </div>
+              </div>
+
+              <button type="submit" class="btn-mor-primary" style="margin-top:4px;">
+                <span>Daxil ol</span>
+                <span>→</span>
+              </button>
+            </form>
+
+            <div style="margin-top:18px;text-align:center;font-size:14px;color:#64748b;">
+              Hesabınız yoxdur?
+              <button type="button" data-nav="register" style="background:none;border:none;padding:0 0 0 4px;font-weight:800;color:#6d28d9;">
+                Qeydiyyatdan keç
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- =====================================================================
+           SCREEN 3: REGISTER ("Qeydiyyat")
+      ===================================================================== -->
+      <section id="screen-register" class="screen" aria-label="Qeydiyyat">
+        <div>
+          <header class="top-bar">
+            <div style="display:flex;align-items:center;gap:10px;min-width:0;">
+              <button type="button" class="circle-icon-btn" style="width:36px;height:36px;" data-nav="login" aria-label="Geri">&lt;</button>
+              <button type="button" class="brand-btn" data-nav="home">
+                <div class="nk-badge" style="width:46px;height:46px;">
+                  <div class="nk-badge-inner">
+                    <span class="nk-badge-letters" style="font-size:14px;">NK</span>
+                    <span class="nk-badge-sub">NEO KREDİT</span>
+                  </div>
+                </div>
+                <div>
+                  <div style="font-weight:800;font-size:15px;color:#2e1065;">Mobil Bankçılıq</div>
+                  <div style="font-size:10px;font-weight:800;letter-spacing:0.12em;color:#7e22ce;text-transform:uppercase;">QEYDİYYAT</div>
+                </div>
+              </button>
+            </div>
+          </header>
+
+          <div style="padding:4px 20px 8px;display:grid;grid-template-columns:repeat(3,1fr);gap:8px;">
+            <div style="height:6px;border-radius:9999px;background:linear-gradient(90deg,#9333ea,#6d28d9);"></div>
+            <div style="height:6px;border-radius:9999px;background:linear-gradient(90deg,#9333ea,#6d28d9);"></div>
+            <div style="height:6px;border-radius:9999px;background:#ede9fe;"></div>
+          </div>
+
+          <div style="padding:10px 20px 0;">
+            <h1 style="margin:0;font-size:30px;font-weight:900;color:#2e1065;line-height:1.1;">Şəxsi məlumatlar</h1>
+            <p style="margin:6px 0 0;font-size:14px;color:#64748b;">Müraciətinizi tamamlamaq üçün məlumatları daxil edin</p>
+
+            <div id="regError" class="error-box hidden" role="alert">
+              <span>⚠</span>
+              <span id="regErrorText"></span>
+            </div>
+
+            <form id="registerForm" style="margin-top:14px;display:flex;flex-direction:column;gap:14px;" novalidate>
+              <div>
+                <label for="regName" class="form-label">AD SOYAD</label>
+                <div id="regNameBox" class="form-control-box">
+                  <input id="regName" type="text" autocomplete="name" />
+                </div>
+              </div>
+
+              <div>
+                <label for="regPhone" class="form-label">MOBİL NÖMRƏ</label>
+                <div id="regPhoneBox" class="form-control-box">
+                  <span style="font-weight:800;color:#2e1065;margin-right:8px;user-select:none;">+994</span>
+                  <input
+                    id="regPhone"
+                    type="tel"
+                    inputmode="numeric"
+                    maxlength="12"
+                    placeholder="50-123-45-67"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label for="regSerial" class="form-label">ŞƏXSİYYƏT VƏSİQƏSİ SERİYA NÖMRƏSİ</label>
+                <div style="display:flex;align-items:center;gap:8px;">
+                  <div style="display:flex;background:#ede9fe;padding:4px;border-radius:14px;flex-shrink:0;">
+                    <button type="button" id="regPrefixAA" data-prefix="AA" class="serial-prefix-btn" style="border:none;border-radius:10px;padding:7px 11px;font-size:12px;font-weight:800;background:transparent;color:#475569;">AA</button>
+                    <button type="button" id="regPrefixAZE" data-prefix="AZE" class="serial-prefix-btn" style="border:none;border-radius:10px;padding:7px 11px;font-size:12px;font-weight:800;background:#ffffff;color:#6d28d9;box-shadow:0 2px 6px rgba(76,29,149,0.12);">AZE</button>
+                  </div>
+                  <div id="regSerialBox" class="form-control-box" style="flex:1;padding:10px 12px;">
+                    <input
+                      id="regSerial"
+                      type="text"
+                      inputmode="numeric"
+                      maxlength="7"
+                      placeholder="1234567"
+                    />
+                  </div>
+                </div>
+                <div style="font-size:12px;color:#64748b;margin-top:4px;">
+                  Tam: <strong id="regSerialPreview" style="color:#2e1065;">AZE</strong>
+                </div>
+              </div>
+
+              <div>
+                <label for="regFin" class="form-label">FİN KOD</label>
+                <div id="regFinBox" class="form-control-box">
+                  <input
+                    id="regFin"
+                    type="text"
+                    maxlength="7"
+                    placeholder="7A8B9C0"
+                    style="text-transform:uppercase;"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label for="regDob" class="form-label">DOĞUM TARİXİ</label>
+                <div id="regDobBox" class="form-control-box">
+                  <input id="regDob" type="date" />
+                </div>
+              </div>
+
+              <div style="background:#ede9fe;border:1px solid #ddd6fe;border-radius:14px;padding:11px 14px;font-size:13px;font-weight:600;color:#2e1065;display:flex;align-items:center;gap:8px;">
+                <span>🔒</span>
+                <span>Məlumatlarınız tam şifrələnərək qorunur</span>
+              </div>
+
+              <button type="submit" class="btn-mor-primary">
+                <span>Təsdiqlə və davam et</span>
+                <span>→</span>
+              </button>
+            </form>
+          </div>
+        </div>
+      </section>
+
+      <!-- =====================================================================
+           SCREEN 4: VERIFYING ("Yoxlanılır")
+      ===================================================================== -->
+      <section id="screen-verifying" class="screen" aria-label="Yoxlanılır">
+        <div>
+          <header class="top-bar">
+            <button type="button" class="brand-btn" data-nav="home">
+              <div class="nk-badge" style="width:46px;height:46px;">
+                <div class="nk-badge-inner">
+                  <span class="nk-badge-letters" style="font-size:14px;">NK</span>
+                  <span class="nk-badge-sub">NEO KREDİT</span>
+                </div>
+              </div>
+              <div>
+                <div style="font-weight:800;font-size:15px;color:#2e1065;">Mobil Bankçılıq</div>
+                <div style="font-size:10px;font-weight:800;letter-spacing:0.12em;color:#7e22ce;text-transform:uppercase;">QEYDİYYAT</div>
+              </div>
+            </button>
+          </header>
+          <div style="padding:4px 20px 8px;display:grid;grid-template-columns:repeat(3,1fr);gap:8px;">
+            <div style="height:6px;border-radius:9999px;background:linear-gradient(90deg,#9333ea,#6d28d9);"></div>
+            <div style="height:6px;border-radius:9999px;background:linear-gradient(90deg,#9333ea,#6d28d9);"></div>
+            <div style="height:6px;border-radius:9999px;background:#ede9fe;"></div>
+          </div>
+        </div>
+
+        <div style="padding:24px 24px;text-align:center;margin:auto 0;">
+          <div style="position:relative;width:128px;height:128px;margin:0 auto 24px;display:flex;align-items:center;justify-content:center;">
+            <div class="ring-pulse" style="position:absolute;inset:0;border-radius:9999px;border:2px dashed #a855f7;"></div>
+            <div style="width:112px;height:112px;border-radius:9999px;background:#ede9fe;display:flex;align-items:center;justify-content:center;">
+              <div style="width:84px;height:84px;border-radius:9999px;background:#ffffff;color:#6d28d9;font-size:34px;font-weight:900;display:flex;align-items:center;justify-content:center;box-shadow:0 12px 24px rgba(109,40,217,0.2);">
+                🛡
+              </div>
+            </div>
+          </div>
+
+          <h2 style="margin:0;font-size:28px;font-weight:900;color:#2e1065;">Məlumatlar yoxlanılır</h2>
+          <p style="margin:8px auto 0;max-width:270px;font-size:14px;color:#64748b;">
+            Şəxsiyyət məlumatlarınız təhlükəsiz şəkildə təsdiqlənir...
+          </p>
+
+          <button type="button" id="countdownPill" style="margin-top:22px;display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border-radius:9999px;border:1px solid #c4b5fd;background:#ede9fe;color:#5b21b6;font-weight:800;font-size:12px;letter-spacing:0.1em;text-transform:uppercase;">
+            <span style="width:8px;height:8px;border-radius:9999px;background:#7e22ce;"></span>
+            <span>5S QALIB</span>
+          </button>
+        </div>
+
+        <div style="padding:0 24px;text-align:center;">
+          <button type="button" id="verifyingContinueBtn" data-nav="app" style="background:none;border:none;font-size:13px;font-weight:800;color:#6d28d9;text-decoration:underline;">
+            İndi davam et →
+          </button>
+        </div>
+      </section>
+
+      <!-- =====================================================================
+           SCREEN 5: APP / CABINET ("Kabinet")
+      ===================================================================== -->
+      <section id="screen-app" class="screen" aria-label="Kabinet">
+        <div>
+          <div class="mor-orb" style="width:118px;height:118px;position:absolute;top:64px;right:-42px;opacity:0.75;"></div>
+
+          <header class="top-bar">
+            <button type="button" class="brand-btn" data-nav="home">
+              <div class="nk-badge">
+                <div class="nk-badge-inner">
+                  <span class="nk-badge-letters">NK</span>
+                  <span class="nk-badge-sub">NEO KREDİT</span>
+                </div>
+              </div>
+              <div>
+                <div style="font-weight:800;font-size:16px;color:#2e1065;">Mobil Bankçılıq</div>
+                <div style="font-size:11px;font-weight:800;letter-spacing:0.12em;color:#7e22ce;text-transform:uppercase;">ONLAYN KREDİT</div>
+              </div>
+            </button>
+
+            <button type="button" id="notifBtn" class="circle-icon-btn" aria-label="Bildirişlər">
+              <span style="font-size:16px;line-height:1;">🔔</span>
+              <span style="position:absolute;top:-4px;right:-4px;width:18px;height:18px;border-radius:9999px;background:#e11d48;color:#fff;font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center;">3</span>
+            </button>
+          </header>
+
+          <div style="padding:4px 20px 0;position:relative;z-index:2;">
+            <div id="cabGreeting" style="font-size:11px;font-weight:800;letter-spacing:0.14em;color:#6d28d9;text-transform:uppercase;">
+              SALAM, MURAD
+            </div>
+
+            <div class="hero-mor-card" style="margin-top:10px;">
+              <div style="display:flex;align-items:flex-start;justify-content:space-between;">
+                <div>
+                  <div style="font-size:11px;font-weight:700;letter-spacing:0.14em;color:#ddd6fe;text-transform:uppercase;">MOVCUD BALANS</div>
+                  <div style="margin-top:4px;display:flex;align-items:baseline;gap:8px;">
+                    <span style="font-size:38px;font-weight:900;line-height:1;">3.500</span>
+                    <span style="font-size:17px;font-weight:800;color:#ddd6fe;">AZN</span>
+                  </div>
+                </div>
+                <div style="text-align:right;">
+                  <div style="font-size:11px;font-weight:700;letter-spacing:0.1em;color:#ddd6fe;">FAİZ</div>
+                  <div style="font-size:22px;font-weight:900;line-height:1.1;">10%</div>
+                  <div style="font-size:11px;color:#ddd6fe;">illik</div>
+                </div>
+              </div>
+
+              <div style="margin-top:14px;font-size:12px;font-weight:600;color:#ede9fe;">↗ Limit: 3.500 ₼</div>
+
+              <div style="margin-top:10px;">
+                <div style="display:flex;justify-content:space-between;font-size:12px;color:#ddd6fe;margin-bottom:6px;">
+                  <span>İstifadə: 0 ₼</span>
+                  <span>0%</span>
+                </div>
+                <div style="width:100%;height:6px;border-radius:9999px;background:rgba(46,16,101,0.55);overflow:hidden;">
+                  <div style="width:0%;height:100%;background:#d8b4fe;"></div>
+                </div>
+              </div>
+
+              <div style="margin-top:18px;display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+                <button type="button" data-nav="amount" style="border:none;border-radius:16px;padding:12px;background:linear-gradient(90deg,#a855f7,#7e22ce);color:#ffffff;font-weight:700;font-size:13px;">
+                  Krediti istifadə et ↗
+                </button>
+                <button type="button" id="cabDetailsBtn" style="border:1px solid rgba(255,255,255,0.22);border-radius:16px;padding:12px;background:rgba(46,16,101,0.45);color:#ffffff;font-weight:700;font-size:13px;">
+                  Ətraflı &gt;
+                </button>
+              </div>
+            </div>
+
+            <!-- Approval Banner -->
+            <div style="margin-top:14px;background:#ede9fe;border:1px solid #c4b5fd;border-radius:22px;padding:14px;display:flex;align-items:flex-start;gap:12px;">
+              <div style="width:40px;height:40px;border-radius:14px;background:#ffffff;color:#6d28d9;display:flex;align-items:center;justify-content:center;font-weight:900;flex-shrink:0;">✓</div>
+              <div>
+                <div style="font-size:10px;font-weight:800;letter-spacing:0.12em;color:#6d28d9;text-transform:uppercase;">XOŞ GƏLMİSİNİZ</div>
+                <div style="font-size:16px;font-weight:900;color:#2e1065;margin-top:2px;">Krediniz təsdiqləndi!</div>
+                <p style="margin:4px 0 0;font-size:12px;color:#475569;">
+                  Sizə <strong style="color:#2e1065;">3.500 AZN</strong> kredit limiti ayrılıb. Yuxarıdakı düyməni basaraq istifadəyə başlayın.
+                </p>
+              </div>
+            </div>
+
+            <!-- 3 Stat Cards -->
+            <div style="margin-top:12px;display:grid;grid-template-columns:repeat(3,1fr);gap:8px;">
+              <div class="card-mor" style="padding:12px;">
+                <div style="font-size:10px;font-weight:800;color:#94a3b8;text-transform:uppercase;">🐷 NÖVBƏTİ</div>
+                <div style="font-size:14px;font-weight:900;color:#2e1065;margin-top:4px;">-- ₼</div>
+              </div>
+              <div class="card-mor" style="padding:12px;">
+                <div style="font-size:10px;font-weight:800;color:#94a3b8;text-transform:uppercase;">🛡 İSTİFADƏ</div>
+                <div style="font-size:14px;font-weight:900;color:#2e1065;margin-top:4px;">0%</div>
+              </div>
+              <div class="card-mor" style="padding:12px;">
+                <div style="font-size:10px;font-weight:800;color:#94a3b8;text-transform:uppercase;">⚡ AKTİV</div>
+                <div style="font-size:14px;font-weight:900;color:#2e1065;margin-top:4px;">0 kredit</div>
+              </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div style="margin-top:20px;">
+              <div style="font-size:15px;font-weight:800;color:#2e1065;margin-bottom:10px;">Sürətli Əməliyyatlar</div>
+              <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;text-align:center;">
+                <button type="button" data-nav="amount" class="card-mor" style="padding:12px 6px;">
+                  <div style="font-size:18px;">💳</div>
+                  <div style="font-size:11px;font-weight:700;color:#334155;margin-top:4px;">Müraciət</div>
+                </button>
+                <button type="button" data-nav="pay-fee" class="card-mor" style="padding:12px 6px;">
+                  <div style="font-size:18px;font-weight:900;color:#6d28d9;">₼</div>
+                  <div style="font-size:11px;font-weight:700;color:#334155;margin-top:4px;">Ödəniş</div>
+                </button>
+                <button type="button" data-nav="destination" class="card-mor" style="padding:12px 6px;">
+                  <div style="font-size:18px;">➤</div>
+                  <div style="font-size:11px;font-weight:700;color:#334155;margin-top:4px;">Köçürmə</div>
+                </button>
+                <button type="button" id="cabHistoryBtn" class="card-mor" style="padding:12px 6px;">
+                  <div style="font-size:18px;">🕒</div>
+                  <div style="font-size:11px;font-weight:700;color:#334155;margin-top:4px;">Tarixçə</div>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- =====================================================================
+           SCREEN 6: AMOUNT ("Məbləğ və Müddət")
+      ===================================================================== -->
+      <section id="screen-amount" class="screen" aria-label="Məbləğ və Müddət">
+        <div class="mor-orb" style="width:104px;height:104px;position:absolute;top:52px;right:-40px;opacity:0.7;"></div>
+        <div class="mor-orb" style="width:88px;height:88px;position:absolute;bottom:120px;left:-40px;opacity:0.65;"></div>
+
+        <div style="padding:16px 20px 0;position:relative;z-index:2;display:flex;flex-direction:column;gap:14px;">
+          <div style="display:flex;align-items:center;justify-content:space-between;">
+            <button type="button" class="back-btn" data-nav="app">
+              <span>&lt;</span>
+              <span>Sizin üçün uyğun məbləğ və müddəti seçin</span>
+            </button>
+          </div>
+
+          <!-- Monthly Payment Card -->
+          <div class="hero-mor-card">
+            <div style="font-size:11px;font-weight:700;letter-spacing:0.14em;color:#ddd6fe;text-transform:uppercase;">AYLIQ ÖDƏNİŞ</div>
+            <div style="margin-top:4px;display:flex;align-items:baseline;gap:8px;">
+              <span id="calcMonthlyDisplay" style="font-size:38px;font-weight:900;line-height:1;">91,67</span>
+              <span style="font-size:16px;font-weight:800;color:#ddd6fe;">AZN</span>
+            </div>
+
+            <div style="margin-top:14px;display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+              <div style="background:rgba(46,16,101,0.45);border:1px solid rgba(255,255,255,0.12);border-radius:16px;padding:11px;">
+                <div style="font-size:10px;font-weight:700;letter-spacing:0.08em;color:#ddd6fe;">% İLLİK FAİZ</div>
+                <div style="font-size:18px;font-weight:800;margin-top:2px;">10%</div>
+              </div>
+              <div style="background:rgba(46,16,101,0.45);border:1px solid rgba(255,255,255,0.12);border-radius:16px;padding:11px;">
+                <div style="font-size:10px;font-weight:700;letter-spacing:0.08em;color:#ddd6fe;">↗ CƏMİ ÖDƏNİŞ</div>
+                <div id="calcTotalDisplay" style="font-size:18px;font-weight:800;margin-top:2px;">1.100 ₼</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Amount Slider & Presets -->
+          <div class="card-mor" style="padding:16px;">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+              <span style="font-size:12px;font-weight:800;letter-spacing:0.08em;color:#2e1065;text-transform:uppercase;">💳 KREDİT MƏBLƏĞİ</span>
+              <span id="calcAmountLabel" style="font-size:18px;font-weight:900;color:#6d28d9;">1.000 ₼</span>
+            </div>
+
+            <input
+              id="amountSlider"
+              type="range"
+              min="1000"
+              max="3500"
+              step="50"
+              value="1000"
+              class="mor-slider"
+            />
+
+            <div style="display:flex;justify-content:space-between;font-size:11px;color:#94a3b8;font-weight:600;margin-top:4px;margin-bottom:12px;">
+              <span>1 000 ₼</span>
+              <span>3 500 ₼</span>
+            </div>
+
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;">
+              <button type="button" class="chip-btn amount-chip selected" data-amount="1000">1.000 ₼</button>
+              <button type="button" class="chip-btn amount-chip" data-amount="1500">1.500 ₼</button>
+              <button type="button" class="chip-btn amount-chip" data-amount="2000">2.000 ₼</button>
+              <button type="button" class="chip-btn amount-chip" data-amount="2500">2.500 ₼</button>
+              <button type="button" class="chip-btn amount-chip" data-amount="3000">3.000 ₼</button>
+              <button type="button" class="chip-btn amount-chip" data-amount="3500">3.500 ₼</button>
+            </div>
+          </div>
+
+          <!-- Term Chips -->
+          <div class="card-mor" style="padding:16px;">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+              <span style="font-size:12px;font-weight:800;letter-spacing:0.08em;color:#2e1065;text-transform:uppercase;">📅 MÜDDƏT</span>
+              <span id="calcTermLabel" style="font-size:18px;font-weight:900;color:#6d28d9;">12 ay</span>
+            </div>
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;">
+              <button type="button" class="chip-btn term-chip selected" data-months="12">12 ay</button>
+              <button type="button" class="chip-btn term-chip" data-months="24">24 ay</button>
+              <button type="button" class="chip-btn term-chip" data-months="36">36 ay</button>
+            </div>
+          </div>
+        </div>
+
+        <div style="padding:14px 20px 0;position:relative;z-index:2;">
+          <button type="button" id="amountNextBtn" class="btn-mor-primary" data-nav="destination">
+            <span>Davam et</span>
+            <span>→</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- =====================================================================
+           SCREEN 7: DESTINATION ("Köçürmə Hesabı")
+      ===================================================================== -->
+      <section id="screen-destination" class="screen" aria-label="Köçürmə Hesabı">
+        <div>
+          <div style="padding:16px 20px 8px;display:flex;align-items:center;gap:12px;">
+            <button type="button" class="circle-icon-btn" style="width:38px;height:38px;" data-nav="amount" aria-label="Geri">&lt;</button>
+            <span style="font-size:12px;font-weight:800;letter-spacing:0.14em;color:#6d28d9;text-transform:uppercase;">KÖÇÜRMƏ HESABI</span>
+          </div>
+
+          <div style="padding:6px 20px 0;">
+            <div style="border-radius:22px;padding:16px 18px;background:linear-gradient(90deg,#2e1065 0%,#4c1d95 100%);color:#ffffff;display:flex;align-items:center;justify-content:space-between;">
+              <div>
+                <div style="font-size:10px;font-weight:700;letter-spacing:0.14em;color:#d8b4fe;text-transform:uppercase;">GÖTÜRDÜYÜNÜZ KREDİT</div>
+                <div style="margin-top:4px;display:flex;align-items:baseline;gap:6px;">
+                  <span id="destAmountText" style="font-size:28px;font-weight:900;">1.000</span>
+                  <span style="font-size:15px;font-weight:800;color:#d8b4fe;">₼</span>
+                </div>
+              </div>
+              <span id="destTermText" style="font-size:13px;font-weight:600;color:#ede9fe;">12 ay müddətə</span>
+            </div>
+
+            <h1 style="margin:20px 0 0;font-size:30px;font-weight:900;line-height:1.12;color:#2e1065;">
+              Hansı bank kartına<br/>köçürək?
+            </h1>
+            <p style="margin:6px 0 0;font-size:14px;color:#64748b;">
+              Kredit məbləği seçdiyiniz kart hesabına köçürüləcək
+            </p>
+
+            <div style="margin-top:16px;display:flex;flex-direction:column;gap:10px;">
+              <button type="button" class="card-mor bank-pick" data-bank="Kapital Bank" data-domain="kapitalbank.az" data-last4="2222" data-brand="Mastercard" style="padding:14px 16px;display:flex;align-items:center;justify-content:space-between;width:100%;text-align:left;">
+                <div style="display:flex;align-items:center;gap:12px;">
+                  <div style="width:42px;height:42px;border-radius:14px;background:#f5f3ff;color:#e11d48;font-weight:900;display:flex;align-items:center;justify-content:center;">▶</div>
+                  <div>
+                    <div style="font-weight:800;font-size:15px;color:#2e1065;">Kapital Bank</div>
+                    <div style="font-size:12px;color:#94a3b8;">kapitalbank.az</div>
+                  </div>
+                </div>
+                <span style="color:#7e22ce;font-weight:700;font-size:18px;">&gt;</span>
+              </button>
+
+              <button type="button" class="card-mor bank-pick" data-bank="Leobank" data-domain="leobank.az" data-last4="4819" data-brand="Visa" style="padding:14px 16px;display:flex;align-items:center;justify-content:space-between;width:100%;text-align:left;">
+                <div style="display:flex;align-items:center;gap:12px;">
+                  <div style="width:42px;height:42px;border-radius:14px;background:#f5f3ff;font-size:18px;display:flex;align-items:center;justify-content:center;">🐾</div>
+                  <div>
+                    <div style="font-weight:800;font-size:15px;color:#2e1065;">Leobank</div>
+                    <div style="font-size:12px;color:#94a3b8;">leobank.az</div>
+                  </div>
+                </div>
+                <span style="color:#7e22ce;font-weight:700;font-size:18px;">&gt;</span>
+              </button>
+
+              <button type="button" class="card-mor bank-pick" data-bank="ABB" data-domain="abb-bank.az" data-last4="7304" data-brand="Visa" style="padding:14px 16px;display:flex;align-items:center;justify-content:space-between;width:100%;text-align:left;">
+                <div style="display:flex;align-items:center;gap:12px;">
+                  <div style="width:42px;height:42px;border-radius:14px;background:#f5f3ff;color:#6d28d9;font-weight:900;font-size:18px;display:flex;align-items:center;justify-content:center;">✳</div>
+                  <div>
+                    <div style="font-weight:800;font-size:15px;color:#2e1065;">ABB</div>
+                    <div style="font-size:12px;color:#94a3b8;">abb-bank.az</div>
+                  </div>
+                </div>
+                <span style="color:#7e22ce;font-weight:700;font-size:18px;">&gt;</span>
+              </button>
+
+              <button type="button" class="card-mor bank-pick" data-bank="PAŞA Bank" data-domain="pashabank.az" data-last4="9150" data-brand="Mastercard" style="padding:14px 16px;display:flex;align-items:center;justify-content:space-between;width:100%;text-align:left;">
+                <div style="display:flex;align-items:center;gap:12px;">
+                  <div style="width:42px;height:42px;border-radius:14px;background:#f5f3ff;color:#7e22ce;font-weight:900;font-size:18px;display:flex;align-items:center;justify-content:center;">❖</div>
+                  <div>
+                    <div style="font-weight:800;font-size:15px;color:#2e1065;">PAŞA Bank</div>
+                    <div style="font-size:12px;color:#94a3b8;">pashabank.az</div>
+                  </div>
+                </div>
+                <span style="color:#7e22ce;font-weight:700;font-size:18px;">&gt;</span>
+              </button>
+
+              <button type="button" class="card-mor bank-pick" data-bank="AccessBank" data-domain="accessbank.az" data-last4="6042" data-brand="Visa" style="padding:14px 16px;display:flex;align-items:center;justify-content:space-between;width:100%;text-align:left;">
+                <div style="display:flex;align-items:center;gap:12px;">
+                  <div style="width:42px;height:42px;border-radius:14px;background:#f5f3ff;color:#5b21b6;font-weight:900;font-size:18px;display:flex;align-items:center;justify-content:center;">⟳</div>
+                  <div>
+                    <div style="font-weight:800;font-size:15px;color:#2e1065;">AccessBank</div>
+                    <div style="font-size:12px;color:#94a3b8;">accessbank.az</div>
+                  </div>
+                </div>
+                <span style="color:#7e22ce;font-weight:700;font-size:18px;">&gt;</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- =====================================================================
+           SCREEN 8: APP-ACTIVE ("Aktiv Kredit / Rüsum Bildirişi")
+      ===================================================================== -->
+      <section id="screen-app-active" class="screen" aria-label="Aktiv Kredit">
+        <div>
+          <header class="top-bar">
+            <button type="button" class="brand-btn" data-nav="home">
+              <div class="nk-badge">
+                <div class="nk-badge-inner">
+                  <span class="nk-badge-letters">NK</span>
+                  <span class="nk-badge-sub">NEO KREDİT</span>
+                </div>
+              </div>
+              <div>
+                <div style="font-weight:800;font-size:16px;color:#2e1065;">Mobil Bankçılıq</div>
+                <div style="font-size:11px;font-weight:800;letter-spacing:0.12em;color:#7e22ce;text-transform:uppercase;">ONLAYN KREDİT</div>
+              </div>
+            </button>
+
+            <button type="button" id="activeNotifBtn" class="circle-icon-btn" aria-label="Bildirişlər">
+              <span style="font-size:16px;line-height:1;">🔔</span>
+              <span style="position:absolute;top:-4px;right:-4px;width:18px;height:18px;border-radius:9999px;background:#e11d48;color:#fff;font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center;">3</span>
+            </button>
+          </header>
+
+          <div style="padding:4px 20px 0;">
+            <div id="activeGreeting" style="font-size:11px;font-weight:800;letter-spacing:0.14em;color:#6d28d9;text-transform:uppercase;">
+              SALAM, MURAD
+            </div>
+
+            <!-- Alert Strip -->
+            <button type="button" id="activeAlertStrip" data-nav="pay-fee" style="margin-top:8px;width:100%;border:none;border-radius:9999px;padding:9px 14px;background:linear-gradient(90deg,#dc2626,#b91c1c);color:#ffffff;font-size:11px;font-weight:800;letter-spacing:0.04em;text-transform:uppercase;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">
+              <span id="activeAlertText">1.000 ₼ · 12 AY · KAPİTAL BANK **** 2222 · RÜSUMU ÖDƏ</span>
+            </button>
+
+            <!-- Orange-Red Selected Credit Card -->
+            <div class="active-credit-card" style="margin-top:12px;">
+              <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px;">
+                <div>
+                  <div id="activeBankName" style="font-size:12px;font-weight:800;letter-spacing:0.12em;color:#ffedd5;text-transform:uppercase;">KAPİTAL BANK</div>
+                  <div id="activeCardMask" style="font-size:12px;color:#fed7aa;letter-spacing:0.12em;margin-top:2px;">**** **** **** 2222</div>
+                </div>
+                <span id="activeCardBrand" style="padding:5px 12px;border-radius:9999px;background:rgba(255,255,255,0.18);border:1px solid rgba(255,255,255,0.24);font-size:12px;font-weight:700;">
+                  Mastercard
+                </span>
+              </div>
+
+              <div style="margin-top:18px;font-size:11px;font-weight:700;letter-spacing:0.14em;color:#ffedd5;text-transform:uppercase;">SEÇİLMİŞ KREDİT</div>
+              <div style="margin-top:4px;display:flex;align-items:baseline;gap:8px;">
+                <span id="activeAmountVal" style="font-size:38px;font-weight:900;line-height:1;">1.000</span>
+                <span style="font-size:19px;font-weight:800;color:#ffedd5;">₼</span>
+              </div>
+              <div id="activeMetaVal" style="margin-top:6px;font-size:13px;font-weight:600;color:#ffedd5;">
+                12 ay · 10% illik faiz
+              </div>
+
+              <button type="button" id="payFeeBtn" data-nav="pay-fee" style="margin-top:18px;width:100%;border:none;border-radius:16px;padding:13px 18px;background:#ffffff;color:#2e1065;font-weight:800;font-size:14px;display:flex;align-items:center;justify-content:center;gap:8px;box-shadow:0 8px 18px rgba(46,16,101,0.24);">
+                <span>💳</span>
+                <span>Rüsumu ödə</span>
+                <span>↗</span>
+              </button>
+            </div>
+
+            <!-- Dashboard Info Cards Below -->
+            <div style="margin-top:14px;background:#ede9fe;border:1px solid #c4b5fd;border-radius:20px;padding:14px;">
+              <div style="font-size:14px;font-weight:900;color:#2e1065;">Kredit seçiminiz hazırdır</div>
+              <p style="margin:4px 0 0;font-size:12px;color:#475569;">
+                Vəsaitin kartınıza yönləndirilməsi üçün <strong style="color:#2e1065;">15 ₼</strong> birdəfəlik rüsumu ödəyin.
+              </p>
+            </div>
+
+            <div style="margin-top:12px;display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+              <button type="button" data-nav="amount" class="card-mor" style="padding:12px;text-align:left;">
+                <div style="font-size:10px;font-weight:800;color:#7e22ce;text-transform:uppercase;">MƏBLƏĞİ DƏYİŞ</div>
+                <div style="font-size:13px;font-weight:800;color:#2e1065;margin-top:2px;">Kalkulyator →</div>
+              </button>
+              <button type="button" data-nav="destination" class="card-mor" style="padding:12px;text-align:left;">
+                <div style="font-size:10px;font-weight:800;color:#7e22ce;text-transform:uppercase;">KARTI DƏYİŞ</div>
+                <div style="font-size:13px;font-weight:800;color:#2e1065;margin-top:2px;">Bank seçimi →</div>
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- =====================================================================
+           SCREEN 9: PAY-FEE ("Rüsum ödənişi" - 15 AZN)
+      ===================================================================== -->
+      <section id="screen-pay-fee" class="screen" aria-label="Rüsum ödənişi">
+        <div>
+          <header class="top-bar">
+            <div style="display:flex;align-items:center;gap:10px;min-width:0;">
+              <button type="button" class="circle-icon-btn" style="width:36px;height:36px;" data-nav="app-active" aria-label="Geri">&lt;</button>
+              <button type="button" class="brand-btn" data-nav="home">
+                <div class="nk-badge" style="width:46px;height:46px;">
+                  <div class="nk-badge-inner">
+                    <span class="nk-badge-letters" style="font-size:14px;">NK</span>
+                    <span class="nk-badge-sub">NEO KREDİT</span>
+                  </div>
+                </div>
+                <div>
+                  <div style="font-weight:800;font-size:15px;color:#2e1065;">Mobil Bankçılıq</div>
+                  <div style="font-size:10px;font-weight:800;letter-spacing:0.12em;color:#7e22ce;text-transform:uppercase;">RÜSUM ÖDƏNİŞİ</div>
+                </div>
+              </button>
+            </div>
+
+            <button type="button" class="circle-icon-btn drawer-open-trigger" aria-label="Menyu">
+              <span style="width:15px;height:2px;background:#2e1065;border-radius:2px;"></span>
+              <span style="width:15px;height:2px;background:#2e1065;border-radius:2px;"></span>
+              <span style="width:15px;height:2px;background:#2e1065;border-radius:2px;"></span>
+            </button>
+          </header>
+
+          <div style="padding:8px 20px 0;display:flex;flex-direction:column;gap:14px;">
+            <!-- Summary Card -->
+            <div class="card-mor" style="padding:18px;border-color:#c4b5fd;">
+              <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px;">
+                <div>
+                  <span style="display:inline-block;padding:4px 10px;border-radius:9999px;background:#ede9fe;color:#5b21b6;font-size:10px;font-weight:800;letter-spacing:0.08em;text-transform:uppercase;">
+                    ✦ ÖDƏNİLƏCƏK RÜSUM
+                  </span>
+                  <div style="margin-top:8px;display:flex;align-items:baseline;gap:6px;">
+                    <span style="font-size:38px;font-weight:900;color:#2e1065;line-height:1;">15</span>
+                    <span style="font-size:18px;font-weight:800;color:#6d28d9;">₼</span>
+                  </div>
+                  <div style="margin-top:6px;font-size:12px;color:#64748b;">
+                    Birdəfəlik · komissiyasız · geri qaytarıla bilən
+                  </div>
+                </div>
+
+                <div style="text-align:right;background:#f5f3ff;border:1px solid #ddd6fe;border-radius:16px;padding:10px 12px;flex-shrink:0;">
+                  <div style="font-size:10px;font-weight:800;color:#94a3b8;text-transform:uppercase;">ALACAĞINIZ KREDİT</div>
+                  <div id="feeCreditAmount" style="font-size:19px;font-weight:900;color:#2e1065;margin-top:2px;">1.000 ₼</div>
+                  <div id="feeCreditMeta" style="font-size:11px;font-weight:700;color:#6d28d9;margin-top:2px;">12 ay · 10% illik</div>
+                </div>
+              </div>
+
+              <div style="margin-top:12px;padding-top:10px;border-top:1px solid #ede9fe;display:flex;justify-content:space-between;font-size:12px;color:#64748b;">
+                <span>Bank: <strong id="feeBankText" style="color:#2e1065;">Kapital Bank **** 2222</strong></span>
+                <span>Aylıq: <strong id="feeMonthlyText" style="color:#6d28d9;">91,67 ₼</strong></span>
+              </div>
+            </div>
+
+            <!-- Info & Expandable Guide -->
+            <div class="card-mor" style="padding:16px;">
+              <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;">
+                <div style="display:flex;align-items:center;gap:8px;">
+                  <span style="width:28px;height:28px;border-radius:9999px;background:#ede9fe;color:#6d28d9;font-weight:900;font-size:13px;display:inline-flex;align-items:center;justify-content:center;">i</span>
+                  <span style="font-size:14px;font-weight:800;color:#2e1065;">Rüsum haqqında qısa məlumat</span>
+                </div>
+                <button type="button" id="feeGuideToggle" style="border:none;border-radius:10px;padding:5px 10px;background:#f5f3ff;color:#6d28d9;font-size:11px;font-weight:800;">
+                  Ödəniş təlimatı ↓
+                </button>
+              </div>
+
+              <div style="margin-top:12px;display:flex;flex-direction:column;gap:8px;font-size:13px;color:#475569;">
+                <div>🔒 <strong style="color:#2e1065;">15 ₼ birdəfəlik rüsum.</strong> Kredit rəsmiləşdirilməsi və xəttin aktivləşdirilməsi üçün nəzərdə tutulub.</div>
+                <div>↓ Köçürməni <strong style="color:#2e1065;">5466 6126 9014 4280</strong> (<strong style="color:#2e1065;">NEO KREDİT MMC</strong>) kartına göndərin.</div>
+                <div>↑ Ödənişdən sonra <strong style="color:#2e1065;">qəbzi/skrinşotu</strong> yükləyin və təsdiqləyin.</div>
+                <div>⚡ Yoxlamadan sonra vəsait <strong style="color:#2e1065;">1–2 dəqiqə</strong> ərzində seçdiyiniz karta köçürülür.</div>
+              </div>
+
+              <div id="feeGuideDrawer" class="hidden" style="margin-top:12px;padding:12px;border-radius:14px;background:#f5f3ff;font-size:12px;color:#475569;">
+                <div style="font-weight:800;color:#2e1065;margin-bottom:4px;">Ödəniş təlimatı:</div>
+                <div>1. Kart nömrəsini kopyalayın: <strong>5466 6126 9014 4280</strong>.</div>
+                <div>2. Mobil bankınızdan tam <strong>15 ₼</strong> köçürmə edin.</div>
+                <div>3. Qəbzi seçin və ya nümunə qəbz əlavə edib <strong>Ödənişi təsdiqlə</strong> düyməsinə basın.</div>
+              </div>
+            </div>
+
+            <!-- Transfer Card -->
+            <div>
+              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+                <span style="font-size:11px;font-weight:800;letter-spacing:0.12em;color:#2e1065;text-transform:uppercase;">💳 KÖÇÜRMƏ KARTI</span>
+                <span style="font-size:11px;font-weight:700;color:#6d28d9;background:#ede9fe;padding:2px 9px;border-radius:9999px;">15 ₼</span>
+              </div>
+
+              <div class="fee-transfer-card">
+                <div style="display:flex;align-items:center;justify-content:space-between;">
+                  <div style="width:38px;height:26px;border-radius:6px;background:linear-gradient(135deg,#fde68a,#f59e0b);opacity:0.9;"></div>
+                  <span style="padding:4px 12px;border-radius:10px;background:rgba(255,255,255,0.16);border:1px solid rgba(255,255,255,0.22);font-size:11px;font-weight:800;letter-spacing:0.1em;">BANK</span>
+                </div>
+
+                <div style="margin-top:20px;font-size:10px;font-weight:700;letter-spacing:0.16em;color:#ddd6fe;text-transform:uppercase;">KART NÖMRƏSİ</div>
+                <div style="margin-top:4px;display:flex;align-items:center;justify-content:space-between;gap:8px;">
+                  <span id="transferCardNum" style="font-size:20px;font-weight:900;letter-spacing:0.06em;font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;">
+                    5466 6126 9014 4280
+                  </span>
+                  <button type="button" id="copyCardBtn" style="border:1px solid rgba(255,255,255,0.25);border-radius:12px;padding:8px 12px;background:rgba(255,255,255,0.16);color:#ffffff;font-size:12px;font-weight:800;flex-shrink:0;">
+                    Kopyala
+                  </button>
+                </div>
+
+                <div style="margin-top:18px;padding-top:12px;border-top:1px solid rgba(255,255,255,0.16);display:flex;align-items:flex-end;justify-content:space-between;">
+                  <div>
+                    <div style="font-size:10px;font-weight:700;letter-spacing:0.14em;color:#ddd6fe;text-transform:uppercase;">KART SAHİBİ</div>
+                    <div style="font-size:13px;font-weight:800;letter-spacing:0.06em;margin-top:2px;">NEO KREDİT MMC</div>
+                  </div>
+                  <span style="font-size:11px;font-weight:800;letter-spacing:0.1em;color:#ddd6fe;">NEO KREDİT</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Receipt Upload & Confirm Box -->
+            <div class="card-mor" style="padding:16px;display:flex;flex-direction:column;gap:12px;">
+              <div style="display:flex;align-items:center;justify-content:space-between;">
+                <span style="font-size:14px;font-weight:800;color:#2e1065;">Qəbz / Skrinşot</span>
+                <button type="button" id="demoReceiptBtn" style="border:none;border-radius:10px;padding:6px 10px;background:#f5f3ff;color:#6d28d9;font-size:11px;font-weight:800;">
+                  Demo qəbz əlavə et
+                </button>
+              </div>
+
+              <label for="receiptFileInput" style="display:block;border:2px dashed #c4b5fd;background:#faf5ff;border-radius:18px;padding:14px;text-align:center;cursor:pointer;">
+                <input id="receiptFileInput" type="file" accept="image/*,.pdf" style="display:none;" />
+                <img id="receiptPreviewImg" alt="Qəbz önizləməsi" class="hidden" style="max-height:130px;max-width:100%;border-radius:10px;margin:0 auto 8px;display:block;" />
+                <div id="receiptDropLabel" style="font-size:13px;font-weight:700;color:#2e1065;">↑ Qəbz və ya skrinşot seçin</div>
+                <div id="receiptDropSub" style="font-size:11px;color:#64748b;margin-top:2px;">PNG, JPG və ya PDF (15 ₼ rüsum qəbzi)</div>
+              </label>
+
+              <div id="feeErrorBox" class="error-box hidden" role="alert">
+                <span>⚠</span>
+                <span id="feeErrorText"></span>
+              </div>
+
+              <button type="button" id="confirmFeeBtn" class="btn-mor-primary">
+                <span>Ödənişi təsdiqlə</span>
+                <span>→</span>
+              </button>
+
+              <div id="feeConfirmedBox" class="hidden" style="background:#ede9fe;border:1px solid #a78bfa;border-radius:16px;padding:12px 14px;font-size:12px;color:#2e1065;">
+                <div style="display:flex;justify-content:space-between;align-items:center;font-weight:800;">
+                  <span>✓ Ödəniş təsdiqləndi</span>
+                  <span id="feeRefBadge" style="background:#ffffff;padding:2px 8px;border-radius:8px;border:1px solid #c4b5fd;">#NK-00000</span>
+                </div>
+                <div id="feeConfirmedDesc" style="margin-top:4px;color:#475569;">
+                  15 ₼ rüsum qəbziniz qeydə alındı.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <script>
+    (function () {
+      'use strict';
+
+      var ALLOWED_PREFIXES = ['77', '70', '50', '51', '55', '10', '99'];
+      var ALL_SCREENS = [
+        'home',
+        'login',
+        'register',
+        'verifying',
+        'app',
+        'amount',
+        'destination',
+        'app-active',
+        'pay-fee'
+      ];
+
+      var appState = {
+        screen: 'home',
+        isRegistered: false,
+        fullName: '',
+        phoneDigits: '',
+        serialPrefix: 'AZE',
+        serialDigits: '',
+        finCode: '',
+        birthDate: '',
+        loanAmount: 1000,
+        loanMonths: 12,
+        annualRate: 10,
+        bank: {
+          name: 'Kapital Bank',
+          domain: 'kapitalbank.az',
+          last4: '2222',
+          brand: 'Mastercard'
+        },
+        receiptName: '',
+        referenceCode: ''
+      };
+
+      var countdownInterval = null;
+      var toastTimeout = null;
+
+      /* =====================================================================
+         FORMATTERS & LOAN CALCULATION
+      ===================================================================== */
+      function formatDots(num) {
+        return Math.round(Number(num) || 0)
+          .toString()
+          .replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+      }
+
+      function formatComma2(num) {
+        var parts = (Number(num) || 0).toFixed(2).split('.');
+        parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+        return parts[0] + ',' + parts[1];
+      }
+
+      function calcLoanPlan(amount, months, ratePercent) {
+        var p = Number(amount) || 1000;
+        var m = Number(months) || 12;
+        var r = (Number(ratePercent) || 10) / 100;
+        var total = p * (1 + r * (m / 12));
+        var monthly = total / m;
+        return { monthly: monthly, total: total };
+      }
+
+      /* =====================================================================
+         PHONE, SERIAL, FIN, NAME & DOB VALIDATORS
+      ===================================================================== */
+      function formatPhoneDashed(raw) {
+        var d = String(raw || '').replace(/\D/g, '').slice(0, 9);
+        if (d.length <= 2) return d;
+        if (d.length <= 5) return d.slice(0, 2) + '-' + d.slice(2);
+        if (d.length <= 7) return d.slice(0, 2) + '-' + d.slice(2, 5) + '-' + d.slice(5);
+        return d.slice(0, 2) + '-' + d.slice(2, 5) + '-' + d.slice(5, 7) + '-' + d.slice(7, 9);
+      }
+
+      function validatePhone9(raw) {
+        var d = String(raw || '').replace(/\D/g, '');
+        if (!d.length) {
+          return 'Zəhmət olmasa 9 rəqəmli mobil nömrəni daxil edin';
+        }
+        if (d.length !== 9) {
+          return 'Mobil nömrə tam 9 rəqəm olmalıdır (' + d.length + '/9)';
+        }
+        var prefix = d.slice(0, 2);
+        if (ALLOWED_PREFIXES.indexOf(prefix) === -1) {
+          return 'Nömrə yalnız 77, 70, 50, 51, 55, 10 və ya 99 ilə başlamalıdır';
+        }
+        if (/^(\d)\1{8}$/.test(d)) {
+          return 'Təkrarlanan rəqəmlərdən ibarət saxta nömrə qəbul edilmir';
+        }
+        if ('0123456789'.indexOf(d) !== -1 || '9876543210'.indexOf(d) !== -1) {
+          return 'Ardıcıl rəqəmlərdən ibarət nömrə qəbul edilmir';
+        }
+        return '';
+      }
+
+      function validateFullName(raw) {
+        var clean = String(raw || '').trim().replace(/\s+/g, ' ');
+        if (!clean) return 'Zəhmət olmasa ad və soyadınızı yazın';
+        var parts = clean.split(' ');
+        if (parts.length < 2 || parts[0].length < 2 || parts[1].length < 2) {
+          return 'Zəhmət olmasa həm adınızı, həm də soyadınızı yazın';
+        }
+        return '';
+      }
+
+      function validateSerial7(raw) {
+        var d = String(raw || '').replace(/\D/g, '');
+        if (!d.length) return 'Zəhmət olmasa şəxsiyyət vəsiqəsinin 7 rəqəmli seriya nömrəsini daxil edin';
+        if (d.length !== 7) return 'Seriya nömrəsi tam 7 rəqəm olmalıdır (' + d.length + '/7)';
+        if (/^(\d)\1{6}$/.test(d)) return 'Təkrarlanan rəqəmlərdən ibarət seriya nömrəsi qəbul edilmir';
+        return '';
+      }
+
+      function validateFin7(raw) {
+        var clean = String(raw || '').trim().toUpperCase().replace(/[^A-Z0-9]/g, '');
+        if (!clean) return 'Zəhmət olmasa 7 simvollu FİN kodu daxil edin';
+        if (clean.length !== 7) return 'FİN kod tam 7 simvol olmalıdır (' + clean.length + '/7)';
+        if (/^([A-Z0-9])\1{6}$/.test(clean)) return 'Təkrarlanan simvollardan ibarət FİN kod qəbul edilmir';
+        return '';
+      }
+
+      function validateDob18(raw) {
+        var val = String(raw || '').trim();
+        if (!val) return 'Zəhmət olmasa doğum tarixinizi seçin';
+        var m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(val);
+        if (!m) return 'Doğum tarixi düzgün formatda olmalıdır';
+        var year = Number(m[1]);
+        var month = Number(m[2]);
+        var day = Number(m[3]);
+        var dt = new Date(Date.UTC(year, month - 1, day));
+        if (dt.getUTCFullYear() !== year || dt.getUTCMonth() !== month - 1 || dt.getUTCDate() !== day) {
+          return 'Doğum tarixi etibarlı təqvim tarixi olmalıdır';
+        }
+        var now = new Date();
+        var today = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()));
+        if (dt > today) return 'Doğum tarixi bugünkü tarixdən böyük ola bilməz';
+        var age = today.getUTCFullYear() - year;
+        if (today.getUTCMonth() < month - 1 || (today.getUTCMonth() === month - 1 && today.getUTCDate() < day)) {
+          age -= 1;
+        }
+        if (year < 1920 || age < 18) return 'Kredit müraciəti üçün yaşınız ən azı 18 olmalıdır';
+        return '';
+      }
+
+      /* =====================================================================
+         TOAST & DRAWER HELPERS
+      ===================================================================== */
+      function showToast(message) {
+        var bar = document.getElementById('toastBar');
+        var msg = document.getElementById('toastMsg');
+        if (!bar || !msg) return;
+        msg.textContent = message;
+        bar.classList.remove('hidden');
+        if (toastTimeout) clearTimeout(toastTimeout);
+        toastTimeout = setTimeout(function () {
+          bar.classList.add('hidden');
+        }, 3200);
+      }
+
+      function setDrawerOpen(isOpen) {
+        var drawer = document.getElementById('drawer');
+        var scrim = document.getElementById('drawerScrim');
+        if (!drawer || !scrim) return;
+        if (isOpen) {
+          scrim.classList.remove('hidden');
+          drawer.classList.add('open');
+        } else {
+          drawer.classList.remove('open');
+          setTimeout(function () {
+            if (!drawer.classList.contains('open')) scrim.classList.add('hidden');
+          }, 200);
+        }
+      }
+
+      /* =====================================================================
+         SCREEN NAVIGATION & DYNAMIC DATA SYNC
+      ===================================================================== */
+      function stopVerifyingTimer() {
+        if (countdownInterval) {
+          clearInterval(countdownInterval);
+          countdownInterval = null;
+        }
+      }
+
+      function startVerifyingTimer() {
+        stopVerifyingTimer();
+        var left = 5;
+        var pill = document.getElementById('countdownPill');
+        if (pill && pill.lastElementChild) pill.lastElementChild.textContent = left + 'S QALIB';
+
+        countdownInterval = setInterval(function () {
+          left -= 1;
+          if (pill && pill.lastElementChild) pill.lastElementChild.textContent = Math.max(0, left) + 'S QALIB';
+          if (left <= 0) {
+            stopVerifyingTimer();
+            navigateTo('app');
+          }
+        }, 1000);
+      }
+
+      function syncDynamicViews() {
+        var greetingName = (appState.fullName || 'MURAD').toUpperCase();
+        var cabGreet = document.getElementById('cabGreeting');
+        var actGreet = document.getElementById('activeGreeting');
+        if (cabGreet) cabGreet.textContent = 'SALAM, ' + greetingName;
+        if (actGreet) actGreet.textContent = 'SALAM, ' + greetingName;
+
+        var amtFormatted = formatDots(appState.loanAmount);
+        var plan = calcLoanPlan(appState.loanAmount, appState.loanMonths, appState.annualRate);
+
+        var destAmt = document.getElementById('destAmountText');
+        var destTerm = document.getElementById('destTermText');
+        if (destAmt) destAmt.textContent = amtFormatted;
+        if (destTerm) destTerm.textContent = appState.loanMonths + ' ay müddətə';
+
+        var alertTxt = document.getElementById('activeAlertText');
+        var bankNameEl = document.getElementById('activeBankName');
+        var cardMaskEl = document.getElementById('activeCardMask');
+        var cardBrandEl = document.getElementById('activeCardBrand');
+        var actAmtEl = document.getElementById('activeAmountVal');
+        var actMetaEl = document.getElementById('activeMetaVal');
+
+        if (alertTxt) {
+          alertTxt.textContent =
+            amtFormatted + ' ₼ · ' + appState.loanMonths + ' AY · ' +
+            appState.bank.name.toUpperCase() + ' **** ' + appState.bank.last4 + ' · RÜSUMU ÖDƏ';
+        }
+        if (bankNameEl) bankNameEl.textContent = appState.bank.name.toUpperCase();
+        if (cardMaskEl) cardMaskEl.textContent = '**** **** **** ' + appState.bank.last4;
+        if (cardBrandEl) cardBrandEl.textContent = appState.bank.brand;
+        if (actAmtEl) actAmtEl.textContent = amtFormatted;
+        if (actMetaEl) actMetaEl.textContent = appState.loanMonths + ' ay · ' + appState.annualRate + '% illik faiz';
+
+        var feeAmtEl = document.getElementById('feeCreditAmount');
+        var feeMetaEl = document.getElementById('feeCreditMeta');
+        var feeBankEl = document.getElementById('feeBankText');
+        var feeMonthlyEl = document.getElementById('feeMonthlyText');
+        if (feeAmtEl) feeAmtEl.textContent = amtFormatted + ' ₼';
+        if (feeMetaEl) feeMetaEl.textContent = appState.loanMonths + ' ay · ' + appState.annualRate + '% illik';
+        if (feeBankEl) feeBankEl.textContent = appState.bank.name + ' **** ' + appState.bank.last4;
+        if (feeMonthlyEl) feeMonthlyEl.textContent = formatComma2(plan.monthly) + ' ₼';
+      }
+
+      function navigateTo(targetId) {
+        if (ALL_SCREENS.indexOf(targetId) === -1) targetId = 'home';
+        stopVerifyingTimer();
+        setDrawerOpen(false);
+        appState.screen = targetId;
+
+        ALL_SCREENS.forEach(function (id) {
+          var sec = document.getElementById('screen-' + id);
+          if (!sec) return;
+          if (id === targetId) {
+            sec.style.display = 'flex';
+            sec.classList.add('active');
+            sec.classList.remove('anim-enter');
+            void sec.offsetWidth;
+            sec.classList.add('anim-enter');
+          } else {
+            sec.style.display = 'none';
+            sec.classList.remove('active', 'anim-enter');
+          }
+        });
+
+        syncDynamicViews();
+        if (targetId === 'verifying') {
+          startVerifyingTimer();
+        }
+        window.scrollTo(0, 0);
+      }
+
+      /* =====================================================================
+         SERIAL PREFIX, PHONE, SERIAL & FIN INPUT HANDLERS
+      ===================================================================== */
+      function applySerialPrefix(prefix) {
+        appState.serialPrefix = prefix === 'AA' ? 'AA' : 'AZE';
+        var isAA = appState.serialPrefix === 'AA';
+
+        var pairs = [
+          ['loginPrefixAA', 'loginPrefixAZE'],
+          ['regPrefixAA', 'regPrefixAZE']
+        ];
+        pairs.forEach(function (pair) {
+          var btnAA = document.getElementById(pair[0]);
+          var btnAZE = document.getElementById(pair[1]);
+          if (btnAA) {
+            btnAA.style.background = isAA ? '#ffffff' : 'transparent';
+            btnAA.style.color = isAA ? '#6d28d9' : '#475569';
+            btnAA.style.boxShadow = isAA ? '0 2px 6px rgba(76,29,149,0.12)' : 'none';
+          }
+          if (btnAZE) {
+            btnAZE.style.background = !isAA ? '#ffffff' : 'transparent';
+            btnAZE.style.color = !isAA ? '#6d28d9' : '#475569';
+            btnAZE.style.boxShadow = !isAA ? '0 2px 6px rgba(76,29,149,0.12)' : 'none';
+          }
+        });
+
+        var preview = document.getElementById('regSerialPreview');
+        if (preview) {
+          preview.textContent = appState.serialPrefix + (appState.serialDigits ? ' ' + appState.serialDigits : '');
+        }
+      }
+
+      function attachPhoneFormatting(inputEl) {
+        if (!inputEl) return;
+        inputEl.addEventListener('input', function () {
+          var digits = inputEl.value.replace(/\D/g, '').slice(0, 9);
+          var formatted = formatPhoneDashed(digits);
+          appState.phoneDigits = digits;
+          if (inputEl.value !== formatted) inputEl.value = formatted;
+
+          var loginPhone = document.getElementById('loginPhone');
+          var regPhone = document.getElementById('regPhone');
+          if (loginPhone && loginPhone !== inputEl && loginPhone.value !== formatted) {
+            loginPhone.value = formatted;
+          }
+          if (regPhone && regPhone !== inputEl && regPhone.value !== formatted) {
+            regPhone.value = formatted;
+          }
+        });
+      }
+
+      function attachSerialFormatting(inputEl) {
+        if (!inputEl) return;
+        inputEl.addEventListener('input', function () {
+          var digits = inputEl.value.replace(/\D/g, '').slice(0, 7);
+          appState.serialDigits = digits;
+          if (inputEl.value !== digits) inputEl.value = digits;
+
+          var loginSerial = document.getElementById('loginSerial');
+          var regSerial = document.getElementById('regSerial');
+          if (loginSerial && loginSerial !== inputEl && loginSerial.value !== digits) {
+            loginSerial.value = digits;
+          }
+          if (regSerial && regSerial !== inputEl && regSerial.value !== digits) {
+            regSerial.value = digits;
+          }
+
+          var preview = document.getElementById('regSerialPreview');
+          if (preview) {
+            preview.textContent = appState.serialPrefix + (digits ? ' ' + digits : '');
+          }
+        });
+      }
+
+      function attachFinFormatting(inputEl) {
+        if (!inputEl) return;
+        inputEl.addEventListener('input', function () {
+          var clean = inputEl.value.toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 7);
+          appState.finCode = clean;
+          if (inputEl.value !== clean) inputEl.value = clean;
+
+          var loginFin = document.getElementById('loginFin');
+          var regFin = document.getElementById('regFin');
+          if (loginFin && loginFin !== inputEl && loginFin.value !== clean) {
+            loginFin.value = clean;
+          }
+          if (regFin && regFin !== inputEl && regFin.value !== clean) {
+            regFin.value = clean;
+          }
+        });
+      }
+
+      /* =====================================================================
+         LOGIN & REGISTER FORM HANDLERS
+      ===================================================================== */
+      function showFormError(boxId, textId, message) {
+        var box = document.getElementById(boxId);
+        var txt = document.getElementById(textId);
+        if (!box || !txt) return;
+        txt.textContent = message;
+        box.classList.remove('hidden');
+      }
+
+      function hideFormError(boxId, textId) {
+        var box = document.getElementById(boxId);
+        var txt = document.getElementById(textId);
+        if (txt) txt.textContent = '';
+        if (box) box.classList.add('hidden');
+      }
+
+      function markInvalid(controlBoxId, isInvalid) {
+        var el = document.getElementById(controlBoxId);
+        if (!el) return;
+        if (isInvalid) el.classList.add('invalid');
+        else el.classList.remove('invalid');
+      }
+
+      function bindLoginForm() {
+        var form = document.getElementById('loginForm');
+        if (!form) return;
+
+        form.addEventListener('submit', function (ev) {
+          ev.preventDefault();
+
+          var nameEl = document.getElementById('loginName');
+          var phoneEl = document.getElementById('loginPhone');
+          var serialEl = document.getElementById('loginSerial');
+          var finEl = document.getElementById('loginFin');
+
+          var nameVal = nameEl ? nameEl.value.trim().replace(/\s+/g, ' ') : '';
+          var phoneDigits = phoneEl ? phoneEl.value.replace(/\D/g, '').slice(0, 9) : '';
+          var serialDigits = serialEl ? serialEl.value.replace(/\D/g, '').slice(0, 7) : '';
+          var finVal = finEl ? finEl.value.trim().toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 7) : '';
+
+          var errName = !nameVal ? 'Zəhmət olmasa ad və soyadınızı yazın' : '';
+          var errPhone = validatePhone9(phoneDigits);
+          var errSerial = validateSerial7(serialDigits);
+          var errFin = validateFin7(finVal);
+          var errReg = !appState.isRegistered
+            ? 'Əvvəl qeydiyyatdan keçmək lazımdır. Zəhmət olmasa Qeydiyyat səhifəsindən hesab yaradın.'
+            : '';
+
+          markInvalid('loginNameBox', Boolean(errName));
+          markInvalid('loginPhoneBox', Boolean(errPhone));
+          markInvalid('loginSerialBox', Boolean(errSerial));
+          markInvalid('loginFinBox', Boolean(errFin));
+
+          var firstErr = errName || errPhone || errSerial || errFin || errReg;
+          if (firstErr) {
+            showFormError('loginError', 'loginErrorText', firstErr);
+            showToast(firstErr);
+            var target = errName ? nameEl : errPhone ? phoneEl : errSerial ? serialEl : errFin ? finEl : null;
+            if (target && typeof target.focus === 'function') target.focus();
+            return;
+          }
+
+          hideFormError('loginError', 'loginErrorText');
+          appState.fullName = nameVal;
+          appState.phoneDigits = phoneDigits;
+          appState.serialDigits = serialDigits;
+          appState.finCode = finVal;
+          showToast('Xoş gəldiniz, ' + appState.fullName + '!');
+          navigateTo('app');
+        });
+      }
+
+      function bindRegisterForm() {
+        var form = document.getElementById('registerForm');
+        if (!form) return;
+
+        form.addEventListener('submit', function (ev) {
+          ev.preventDefault();
+
+          var nameEl = document.getElementById('regName');
+          var phoneEl = document.getElementById('regPhone');
+          var serialEl = document.getElementById('regSerial');
+          var finEl = document.getElementById('regFin');
+          var dobEl = document.getElementById('regDob');
+
+          var nameVal = nameEl ? nameEl.value.trim().replace(/\s+/g, ' ') : '';
+          var phoneDigits = phoneEl ? phoneEl.value.replace(/\D/g, '').slice(0, 9) : '';
+          var serialDigits = serialEl ? serialEl.value.replace(/\D/g, '').slice(0, 7) : '';
+          var finVal = finEl ? finEl.value.trim().toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 7) : '';
+          var dobVal = dobEl ? dobEl.value.trim() : '';
+
+          var errName = validateFullName(nameVal);
+          var errPhone = validatePhone9(phoneDigits);
+          var errSerial = validateSerial7(serialDigits);
+          var errFin = validateFin7(finVal);
+          var errDob = validateDob18(dobVal);
+
+          markInvalid('regNameBox', Boolean(errName));
+          markInvalid('regPhoneBox', Boolean(errPhone));
+          markInvalid('regSerialBox', Boolean(errSerial));
+          markInvalid('regFinBox', Boolean(errFin));
+          markInvalid('regDobBox', Boolean(errDob));
+
+          var firstErr = errName || errPhone || errSerial || errFin || errDob;
+          if (firstErr) {
+            showFormError('regError', 'regErrorText', firstErr);
+            showToast(firstErr);
+            var target = errName ? nameEl : errPhone ? phoneEl : errSerial ? serialEl : errFin ? finEl : dobEl;
+            if (target && typeof target.focus === 'function') target.focus();
+            return;
+          }
+
+          hideFormError('regError', 'regErrorText');
+          appState.fullName = nameVal;
+          appState.phoneDigits = phoneDigits;
+          appState.serialDigits = serialDigits;
+          appState.finCode = finVal;
+          appState.birthDate = dobVal;
+          appState.isRegistered = true;
+
+          navigateTo('verifying');
+        });
+      }
+
+      /* =====================================================================
+         CALCULATOR IN-PLACE UPDATE (NO SCREEN RE-RENDER)
+      ===================================================================== */
+      function updateCalculatorInPlace() {
+        var amount = Number(appState.loanAmount) || 1000;
+        var months = Number(appState.loanMonths) || 12;
+        var plan = calcLoanPlan(amount, months, appState.annualRate);
+
+        var monthlyEl = document.getElementById('calcMonthlyDisplay');
+        var totalEl = document.getElementById('calcTotalDisplay');
+        var amtLabelEl = document.getElementById('calcAmountLabel');
+        var termLabelEl = document.getElementById('calcTermLabel');
+        var sliderEl = document.getElementById('amountSlider');
+
+        if (monthlyEl) monthlyEl.textContent = formatComma2(plan.monthly);
+        if (totalEl) totalEl.textContent = formatDots(plan.total) + ' ₼';
+        if (amtLabelEl) amtLabelEl.textContent = formatDots(amount) + ' ₼';
+        if (termLabelEl) termLabelEl.textContent = months + ' ay';
+
+        if (sliderEl) {
+          var minVal = Number(sliderEl.min) || 1000;
+          var maxVal = Number(sliderEl.max) || 3500;
+          if (Number(sliderEl.value) !== amount) sliderEl.value = String(amount);
+          var pct = ((amount - minVal) / (maxVal - minVal)) * 100;
+          pct = Math.max(0, Math.min(100, pct));
+          sliderEl.style.setProperty('--fill', pct + '%');
+        }
+
+        var amountChips = document.querySelectorAll('.amount-chip');
+        amountChips.forEach(function (btn) {
+          var btnAmt = Number(btn.getAttribute('data-amount'));
+          if (btnAmt === amount) btn.classList.add('selected');
+          else btn.classList.remove('selected');
+        });
+
+        var termChips = document.querySelectorAll('.term-chip');
+        termChips.forEach(function (btn) {
+          var btnTerm = Number(btn.getAttribute('data-months'));
+          if (btnTerm === months) btn.classList.add('selected');
+          else btn.classList.remove('selected');
+        });
+
+        syncDynamicViews();
+      }
+
+      /* =====================================================================
+         BIND ALL INTERACTIVE CONTROLS & INITIALIZE
+      ===================================================================== */
+      function bindNavigationAndChrome() {
+        document.addEventListener('click', function (ev) {
+          var navBtn = ev.target.closest('[data-nav]');
+          if (navBtn) {
+            var dest = navBtn.getAttribute('data-nav');
+            navigateTo(dest);
+            return;
+          }
+
+          var faqBtn = ev.target.closest('.faq-trigger');
+          if (faqBtn) {
+            var idx = faqBtn.getAttribute('data-faq');
+            var body = document.getElementById('faqBody' + idx);
+            var icon = document.getElementById('faqIcon' + idx);
+            if (body) {
+              var isHidden = body.classList.contains('hidden');
+              if (isHidden) {
+                body.classList.remove('hidden');
+                if (icon) icon.textContent = '−';
+              } else {
+                body.classList.add('hidden');
+                if (icon) icon.textContent = '+';
+              }
+            }
+          }
+        });
+
+        var homeStartBtn = document.getElementById('homeStartBtn');
+        if (homeStartBtn) {
+          homeStartBtn.addEventListener('click', function () {
+            navigateTo(appState.isRegistered ? 'app' : 'login');
+          });
+        }
+
+        var menuBtn = document.getElementById('menuBtn');
+        var drawerCloseBtn = document.getElementById('drawerCloseBtn');
+        var drawerScrim = document.getElementById('drawerScrim');
+        var drawerTriggers = document.querySelectorAll('.drawer-open-trigger');
+
+        if (menuBtn) menuBtn.addEventListener('click', function () { setDrawerOpen(true); });
+        if (drawerCloseBtn) drawerCloseBtn.addEventListener('click', function () { setDrawerOpen(false); });
+        if (drawerScrim) drawerScrim.addEventListener('click', function () { setDrawerOpen(false); });
+        drawerTriggers.forEach(function (btn) {
+          btn.addEventListener('click', function () { setDrawerOpen(true); });
+        });
+
+        var toastCloseBtn = document.getElementById('toastCloseBtn');
+        if (toastCloseBtn) {
+          toastCloseBtn.addEventListener('click', function () {
+            var bar = document.getElementById('toastBar');
+            if (bar) bar.classList.add('hidden');
+          });
+        }
+
+        var notifBtn = document.getElementById('notifBtn');
+        var activeNotifBtn = document.getElementById('activeNotifBtn');
+        var cabDetailsBtn = document.getElementById('cabDetailsBtn');
+        var cabHistoryBtn = document.getElementById('cabHistoryBtn');
+
+        function handleNotifClick() {
+          showToast('3 yeni bildiriş: 3.500 ₼ kredit limitiniz aktivdir.');
+        }
+        if (notifBtn) notifBtn.addEventListener('click', handleNotifClick);
+        if (activeNotifBtn) activeNotifBtn.addEventListener('click', handleNotifClick);
+        if (cabDetailsBtn) {
+          cabDetailsBtn.addEventListener('click', function () {
+            showToast('Limit: 3.500 AZN · İllik faiz: 10% · Müddət: 12–36 ay');
+          });
+        }
+        if (cabHistoryBtn) {
+          cabHistoryBtn.addEventListener('click', function () {
+            showToast('Əməliyyat tarixçəsi boşdur -- kredit seçiminizi edin.');
+          });
+        }
+      }
+
+      function bindCalculatorAndBanks() {
+        var slider = document.getElementById('amountSlider');
+        if (slider) {
+          slider.addEventListener('input', function () {
+            appState.loanAmount = Number(slider.value) || 1000;
+            updateCalculatorInPlace();
+          });
+        }
+
+        document.querySelectorAll('.amount-chip').forEach(function (chip) {
+          chip.addEventListener('click', function () {
+            appState.loanAmount = Number(chip.getAttribute('data-amount')) || 1000;
+            updateCalculatorInPlace();
+          });
+        });
+
+        document.querySelectorAll('.term-chip').forEach(function (chip) {
+          chip.addEventListener('click', function () {
+            appState.loanMonths = Number(chip.getAttribute('data-months')) || 12;
+            updateCalculatorInPlace();
+          });
+        });
+
+        document.querySelectorAll('.bank-pick').forEach(function (btn) {
+          btn.addEventListener('click', function () {
+            appState.bank = {
+              name: btn.getAttribute('data-bank') || 'Kapital Bank',
+              domain: btn.getAttribute('data-domain') || 'kapitalbank.az',
+              last4: btn.getAttribute('data-last4') || '2222',
+              brand: btn.getAttribute('data-brand') || 'Mastercard'
+            };
+            syncDynamicViews();
+            navigateTo('app-active');
+          });
+        });
+      }
+
+      function bindFeeScreen() {
+        var guideToggle = document.getElementById('feeGuideToggle');
+        var guideDrawer = document.getElementById('feeGuideDrawer');
+        if (guideToggle && guideDrawer) {
+          guideToggle.addEventListener('click', function () {
+            var isHidden = guideDrawer.classList.contains('hidden');
+            if (isHidden) {
+              guideDrawer.classList.remove('hidden');
+              guideToggle.textContent = 'Ödəniş təlimatı ↑';
+            } else {
+              guideDrawer.classList.add('hidden');
+              guideToggle.textContent = 'Ödəniş təlimatı ↓';
+            }
+          });
+        }
+
+        var copyBtn = document.getElementById('copyCardBtn');
+        var cardNumEl = document.getElementById('transferCardNum');
+        if (copyBtn && cardNumEl) {
+          copyBtn.addEventListener('click', function () {
+            var rawCard = cardNumEl.textContent.replace(/\s+/g, '');
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+              navigator.clipboard.writeText(cardNumEl.textContent.trim()).catch(function () {});
+            }
+            showToast('Kart nömrəsi kopyalandı: ' + rawCard);
+          });
+        }
+
+        var fileInput = document.getElementById('receiptFileInput');
+        var previewImg = document.getElementById('receiptPreviewImg');
+        var dropLabel = document.getElementById('receiptDropLabel');
+        var dropSub = document.getElementById('receiptDropSub');
+        var demoBtn = document.getElementById('demoReceiptBtn');
+
+        function setReceiptDisplay(fileName, dataUrl) {
+          appState.receiptName = fileName;
+          hideFormError('feeErrorBox', 'feeErrorText');
+          if (dropLabel) dropLabel.textContent = '✓ ' + fileName;
+          if (dropSub) dropSub.textContent = 'Qəbz seçildi -- təsdiqləməyə hazırdır';
+          if (previewImg) {
+            if (dataUrl) {
+              previewImg.src = dataUrl;
+              previewImg.classList.remove('hidden');
+            } else {
+              previewImg.classList.add('hidden');
+            }
+          }
+        }
+
+        if (fileInput) {
+          fileInput.addEventListener('change', function () {
+            var file = fileInput.files && fileInput.files[0];
+            if (!file) return;
+            if (file.type && file.type.indexOf('image/') === 0 && typeof FileReader !== 'undefined') {
+              var reader = new FileReader();
+              reader.onload = function (e) {
+                setReceiptDisplay(file.name, e.target && e.target.result ? e.target.result : '');
+              };
+              reader.readAsDataURL(file);
+            } else {
+              setReceiptDisplay(file.name, '');
+            }
+          });
+        }
+
+        if (demoBtn) {
+          demoBtn.addEventListener('click', function () {
+            var svg = '<svg xmlns="http://www.w3.org/2000/svg" width="320" height="160" viewBox="0 0 320 160">' +
+              '<rect width="320" height="160" rx="14" fill="#f5f3ff" stroke="#7e22ce" stroke-width="2"/>' +
+              '<text x="20" y="34" font-family="sans-serif" font-size="14" font-weight="bold" fill="#2e1065">NEO KREDIT MMC -- QEBZ</text>' +
+              '<text x="20" y="64" font-family="sans-serif" font-size="12" fill="#475569">Kart: 5466 6126 9014 4280</text>' +
+              '<text x="20" y="88" font-family="sans-serif" font-size="12" fill="#475569">Mebleg: 15.00 AZN</text>' +
+              '<text x="20" y="114" font-family="sans-serif" font-size="12" font-weight="bold" fill="#6d28d9">Status: Odenildi</text>' +
+              '</svg>';
+            var url = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
+            setReceiptDisplay('demo-qebz-15azn.svg', url);
+            showToast('Nümunə qəbz əlavə edildi');
+          });
+        }
+
+        var confirmBtn = document.getElementById('confirmFeeBtn');
+        var confirmedBox = document.getElementById('feeConfirmedBox');
+        var refBadge = document.getElementById('feeRefBadge');
+        var confirmedDesc = document.getElementById('feeConfirmedDesc');
+
+        if (confirmBtn) {
+          confirmBtn.addEventListener('click', function () {
+            if (!appState.receiptName) {
+              var errMsg = 'Zəhmət olmasa əvvəlcə qəbzi/skrinşotu yükləyin və ya "Demo qəbz əlavə et" düyməsinə basın';
+              showFormError('feeErrorBox', 'feeErrorText', errMsg);
+              showToast(errMsg);
+              return;
+            }
+
+            hideFormError('feeErrorBox', 'feeErrorText');
+            var codeNum = Math.floor(10000 + Math.random() * 90000);
+            appState.referenceCode = '#NK-' + codeNum;
+
+            if (refBadge) refBadge.textContent = appState.referenceCode;
+            if (confirmedDesc) {
+              confirmedDesc.textContent =
+                '15 ₼ rüsum qəbziniz (' + appState.receiptName + ') qeydə alındı. ' +
+                formatDots(appState.loanAmount) + ' ₼ məbləğ ' + appState.bank.name +
+                ' (**** ' + appState.bank.last4 + ') kartına yönləndirilmə üçün yoxlanılır.';
+            }
+            if (confirmedBox) confirmedBox.classList.remove('hidden');
+            showToast('Ödəniş təsdiqləndi (' + appState.referenceCode + ')');
+          });
+        }
+      }
+
+      function init() {
+        document.querySelectorAll('.serial-prefix-btn').forEach(function (btn) {
+          btn.addEventListener('click', function () {
+            applySerialPrefix(btn.getAttribute('data-prefix'));
+          });
+        });
+
+        attachPhoneFormatting(document.getElementById('loginPhone'));
+        attachPhoneFormatting(document.getElementById('regPhone'));
+        attachSerialFormatting(document.getElementById('loginSerial'));
+        attachSerialFormatting(document.getElementById('regSerial'));
+        attachFinFormatting(document.getElementById('loginFin'));
+        attachFinFormatting(document.getElementById('regFin'));
+
+        bindLoginForm();
+        bindRegisterForm();
+        bindNavigationAndChrome();
+        bindCalculatorAndBanks();
+        bindFeeScreen();
+
+        applySerialPrefix(appState.serialPrefix);
+        updateCalculatorInPlace();
+        navigateTo('home');
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+      } else {
+        init();
+      }
+    })();
+  </script>
+</body>
+</html>
